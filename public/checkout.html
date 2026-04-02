@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FreshLink — Checkout</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <script
+      src="https://unpkg.com/lucide@0.383.0/dist/umd/lucide.min.js"
+      defer
+    ></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/checkout.js"></script>
+    <script src="../js/ui.js" defer></script>
+    <style>
+      .section-divider {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--mist);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin: 24px 0 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .section-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--linen);
+      }
+      .whatsapp-note {
+        background: #e8f8ef;
+        border: 1px solid #b2dfcc;
+        border-radius: var(--r12);
+        padding: 14px 16px;
+        font-size: 13px;
+        color: #1a6640;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .whatsapp-note svg {
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .place-order-btn {
+        width: 100%;
+        padding: 18px;
+        font-size: 16px;
+        font-weight: 700;
+        background: var(--leaf);
+        color: var(--white);
+        border-radius: var(--r24);
+        border: none;
+        cursor: pointer;
+        transition: all 0.22s;
+        box-shadow: 0 4px 20px rgba(61, 168, 50, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+      .place-order-btn:hover {
+        background: var(--fern);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(61, 168, 50, 0.4);
+      }
+      .place-order-btn:active {
+        transform: translateY(0);
+      }
+      .steps-bar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        margin-bottom: 32px;
+      }
+      .step {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--mist);
+      }
+      .step.done {
+        color: var(--leaf);
+      }
+      .step.active {
+        color: var(--forest);
+        font-weight: 700;
+      }
+      .step-dot {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 2px solid var(--linen);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+      .step.done .step-dot {
+        background: var(--leaf);
+        border-color: var(--leaf);
+        color: white;
+      }
+      .step.active .step-dot {
+        background: var(--forest);
+        border-color: var(--forest);
+        color: white;
+      }
+      .step-line {
+        width: 40px;
+        height: 2px;
+        background: var(--linen);
+        margin: 0 4px;
+      }
+      .step-line.done {
+        background: var(--leaf);
+      }
+      select.form-input {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7d6e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        padding-right: 36px;
+      }
+    </style>
+  </head>
+  <body style="background: var(--cream)">
+    <div id="prog" aria-hidden="true"></div>
+    <div id="toast" role="status" aria-live="polite"></div>
+
+    <header>
+      <nav id="nav" role="navigation">
+        <div class="nav-logo">
+          <a href="index.html">
+            <div class="nav-logo">
+              <a
+                href="index.html"
+                style="display: flex; align-items: center; gap: 8px"
+              >
+                <img
+                  src="../assets/images/logo.png"
+                  alt="FreshLink Logo"
+                  style="height: 48px; width: auto"
+                />
+              </a>
+            </div>
+          </a>
+        </div>
+        <div class="nav-mid">
+          <a href="index.html">Home</a><a href="shop.html">Shop</a
+          ><a href="cart.html">Cart</a>
+        </div>
+        <div class="nav-right">
+          <a href="cart.html" style="text-decoration: none"
+            ><button class="cart-pill">
+              <i data-lucide="shopping-bag" style="width: 15px"></i> Cart
+              <span class="cart-badge" id="cartBadge">0</span>
+            </button></a
+          >
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div class="checkout-layout">
+        <!-- Form Panel -->
+        <div class="checkout-form-panel">
+          <!-- Progress steps -->
+          <div class="steps-bar">
+            <div class="step done">
+              <div class="step-dot">✓</div>
+              <span>Cart</span>
+            </div>
+            <div class="step-line done"></div>
+            <div class="step active">
+              <div class="step-dot">2</div>
+              <span>Details</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+              <div class="step-dot">3</div>
+              <span>Confirm</span>
+            </div>
+          </div>
+
+          <div class="checkout-panel-title">Delivery Details</div>
+
+          <!-- WhatsApp note -->
+          <div class="whatsapp-note">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"
+              />
+            </svg>
+            Your order will be sent as a WhatsApp message to our team. We'll
+            confirm within 30 minutes.
+          </div>
+
+          <!-- Customer details -->
+          <div class="section-divider">Personal Info</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="fname">First Name *</label>
+              <input
+                class="form-input"
+                id="fname"
+                type="text"
+                placeholder="Rahul"
+                autocomplete="given-name"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="lname">Last Name</label>
+              <input
+                class="form-input"
+                id="lname"
+                type="text"
+                placeholder="Sharma"
+                autocomplete="family-name"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="phone">WhatsApp Number *</label>
+            <input
+              class="form-input"
+              id="phone"
+              type="tel"
+              placeholder="9876543210"
+              autocomplete="tel"
+              maxlength="10"
+            />
+          </div>
+
+          <div class="section-divider">Delivery Address</div>
+          <div class="form-group">
+            <label class="form-label" for="address">Full Address *</label>
+            <textarea
+              class="form-input"
+              id="address"
+              rows="3"
+              placeholder="House No., Street, Colony, Landmark…"
+              autocomplete="street-address"
+              style="resize: vertical"
+            ></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="city">City *</label>
+              <select
+                class="form-input"
+                id="city"
+                autocomplete="address-level2"
+              >
+                <option value="">Select city</option>
+                <option>Bhopal</option>
+                <option>Indore</option>
+                <option>Jabalpur</option>
+                <option>Gwalior</option>
+                <option>Ujjain</option>
+                <option>Sagar</option>
+                <option>Rewa</option>
+                <option>Satna</option>
+                <option>Dewas</option>
+                <option>Ratlam</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pin">PIN Code *</label>
+              <input
+                class="form-input"
+                id="pin"
+                type="tel"
+                placeholder="462001"
+                maxlength="6"
+              />
+            </div>
+          </div>
+
+          <!-- Payment method -->
+          <div class="section-divider">Payment Method</div>
+          <div class="payment-options">
+            <div
+              class="pay-opt selected"
+              id="optCOD"
+              onclick="selectPayment('COD')"
+              role="button"
+              tabindex="0"
+              aria-pressed="true"
+            >
+              <span class="pay-opt-icon">💵</span>
+              <div class="pay-opt-info">
+                <div class="pay-opt-title">Cash on Delivery</div>
+                <div class="pay-opt-sub">
+                  Pay when your order arrives at your door
+                </div>
+              </div>
+              <div
+                class="pay-opt-radio"
+                style="background: var(--leaf); border-color: var(--leaf)"
+              ></div>
+            </div>
+            <div
+              class="pay-opt"
+              id="optUPI"
+              onclick="selectPayment('UPI')"
+              role="button"
+              tabindex="0"
+              aria-pressed="false"
+            >
+              <span class="pay-opt-icon">📲</span>
+              <div class="pay-opt-info">
+                <div class="pay-opt-title">UPI / GPay / PhonePe</div>
+                <div class="pay-opt-sub">
+                  Pay via any UPI app — instant confirmation
+                </div>
+              </div>
+              <div class="pay-opt-radio"></div>
+            </div>
+          </div>
+
+          <button
+            class="place-order-btn"
+            onclick="placeOrder()"
+            style="margin-top: 28px"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"
+              />
+            </svg>
+            Place Order via WhatsApp
+          </button>
+
+          <p
+            style="
+              font-size: 12px;
+              color: var(--mist);
+              text-align: center;
+              margin-top: 14px;
+              line-height: 1.6;
+            "
+          >
+            By placing this order you agree to our
+            <a href="#" style="color: var(--leaf)">Terms</a>.<br />
+            We'll call/WhatsApp to confirm your order within 30 minutes.
+          </p>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="order-summary-panel">
+          <div class="summary-title" style="margin-bottom: 16px">
+            Order Summary
+          </div>
+          <div class="order-summary-items" id="orderItems"></div>
+          <div class="summary-row" style="margin-top: 8px">
+            <span>Subtotal</span><span id="orderSubtotal">₹0</span>
+          </div>
+          <div class="summary-row">
+            <span>Delivery</span><span id="orderDelivery">₹29</span>
+          </div>
+          <div class="summary-total" style="margin-top: 12px">
+            <span>Total</span><span id="orderTotal">₹0</span>
+          </div>
+          <div
+            style="
+              background: var(--lime);
+              border-radius: var(--r12);
+              padding: 12px 14px;
+              margin-top: 16px;
+              font-size: 12px;
+              color: var(--forest);
+            "
+          >
+            <strong>🚚 Delivery:</strong> Within 48 hours across MP<br />
+            <strong>🔄 Returns:</strong> Full refund if not satisfied
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        if (typeof lucide !== "undefined") lucide.createIcons();
+      });
+    </script>
+  </body>
+</html>

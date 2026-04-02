@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FreshLink — My Cart</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <script
+      src="https://unpkg.com/lucide@0.383.0/dist/umd/lucide.min.js"
+      defer
+    ></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/ui.js" defer></script>
+  </head>
+  <body>
+    <div id="prog" aria-hidden="true"></div>
+    <div id="toast" role="status" aria-live="polite"></div>
+
+    <header>
+      <nav id="nav" role="navigation">
+        <div class="nav-logo">
+          <a href="index.html" style="display:flex; align-items:center; gap:8px;">
+            <img 
+              src="../assets/images/logo.png" 
+              alt="FreshLink Logo"
+              style="height: 48px; width: auto;"
+            />
+          </a>
+        </div>
+          </a>
+          </a>
+        </div>
+        <div class="nav-mid">
+          <a href="index.html">Home</a>
+          <a href="shop.html">Shop</a>
+          <a href="cart.html" class="active">Cart</a>
+          <a href="how-it-works.html">How It Works</a>
+          <a href="about.html">About</a>
+        </div>
+        <div class="nav-right">
+          <button class="cart-pill" aria-label="Current page: Cart">
+            <i data-lucide="shopping-bag" style="width: 15px; height: 15px"></i>
+            Cart <span class="cart-badge" id="cartBadge">0</span>
+          </button>
+          <button class="ham-btn" id="hamBtn" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="index.html">🏠 Home</a>
+      <a href="shop.html">🛍️ Shop</a>
+      <a href="cart.html" class="active">🛒 Cart</a>
+      <a href="how-it-works.html">⚡ How It Works</a>
+      <a href="about.html">🌿 About</a>
+    </nav>
+
+    <main>
+      <div class="cart-layout">
+        <!-- Items Panel -->
+        <div class="cart-items-panel">
+          <div class="cart-panel-head">
+            🛒 Your Cart
+            <span
+              id="cartItemCount"
+              style="font-size: 16px; font-weight: 400; color: var(--mist)"
+            ></span>
+          </div>
+          <div id="cartItemsList"></div>
+        </div>
+
+        <!-- Summary Panel -->
+        <div class="cart-summary-panel">
+          <div class="summary-title">Order Summary</div>
+
+          <!-- Free delivery progress -->
+          <div
+            id="freeDelBanner"
+            style="
+              background: var(--lime);
+              border-radius: var(--r12);
+              padding: 12px 14px;
+              margin-bottom: 16px;
+              font-size: 13px;
+              color: var(--forest);
+            "
+          >
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 8px;
+              "
+            >
+              <span id="freeDelMsg">Add items for free delivery</span>
+              <strong id="freeDelAmt"></strong>
+            </div>
+            <div
+              style="
+                background: var(--linen);
+                border-radius: 4px;
+                height: 6px;
+                overflow: hidden;
+              "
+            >
+              <div
+                id="freeDelFill"
+                style="
+                  height: 100%;
+                  background: var(--leaf);
+                  border-radius: 4px;
+                  width: 0%;
+                  transition: width 0.4s;
+                "
+              ></div>
+            </div>
+          </div>
+
+          <div class="summary-row">
+            <span>Subtotal</span><span id="summarySubtotal">₹0</span>
+          </div>
+          <div class="summary-row">
+            <span>Delivery</span><span id="summaryDelivery">₹29</span>
+          </div>
+          <div class="summary-total">
+            <span>Total</span><span id="summaryTotal">₹0</span>
+          </div>
+          <p class="summary-note">🚚 Delivered within 24 hours across MP</p>
+          <a
+            href="checkout.html"
+            id="checkoutBtn"
+            style="text-decoration: none; display: block; margin-top: 14px"
+          >
+            <button class="checkout-cta" style="width: 100%">
+              Proceed to Checkout →
+            </button>
+          </a>
+          <a
+            href="shop.html"
+            style="
+              display: block;
+              text-align: center;
+              margin-top: 14px;
+              font-size: 13px;
+              color: var(--sage);
+              text-decoration: none;
+            "
+          >
+            ← Continue Shopping
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <button id="scrollTopBtn" aria-label="Scroll to top">
+      <i data-lucide="arrow-up" style="width: 16px"></i>
+    </button>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        if (typeof lucide !== "undefined") lucide.createIcons();
+        renderCart();
+      });
+
+      function renderCart() {
+        const cart = getCart();
+        const products = getProducts();
+        const listEl = document.getElementById("cartItemsList");
+        const countEl = document.getElementById("cartItemCount");
+
+        if (!cart.length) {
+          listEl.innerHTML = `
+          <div class="empty-cart">
+            <div style="font-size:64px;margin-bottom:16px">🛒</div>
+            <h2>Your cart is empty</h2>
+            <p style="color:var(--mist);margin-bottom:24px">Add some fresh produce to get started!</p>
+            <a href="shop.html"><button class="btn btn-primary">Shop Now</button></a>
+          </div>`;
+          document.getElementById("checkoutBtn").style.pointerEvents = "none";
+          document
+            .getElementById("checkoutBtn")
+            .querySelector("button").style.opacity = ".5";
+          updateSummary(0);
+          return;
+        }
+
+        let sub = 0;
+        const rows = cart
+          .map((item) => {
+            const p = products.find((x) => String(x.id) === String(item.id));
+            if (!p) return "";
+            const price =
+              p.discountPrice && p.discountPrice < p.price
+                ? p.discountPrice
+                : p.price;
+            sub += price * item.qty;
+            return `<div class="cart-item" id="cartRow_${p.id}">
+          <img class="cart-item-img" src="${escHtml(p.image)}" alt="${escHtml(p.name)}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1540420773420-3366772f4999?w=120'" />
+          <div class="cart-item-info">
+            <div class="cart-item-name">${escHtml(p.name)}</div>
+            <div class="cart-item-farm" style="font-size:11px;color:var(--sage)">${escHtml(p.farm)}</div>
+            <div style="font-size:12px;color:var(--mist);margin-top:2px">${fmt(price)} / ${p.unit}</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="qty-ctrl">
+              <button class="qty-btn" onclick="cartChangeQty('${p.id}',-1)">−</button>
+              <span class="qty-num" id="cartQty_${p.id}">${item.qty}</span>
+              <button class="qty-btn" onclick="cartChangeQty('${p.id}',1)">+</button>
+            </div>
+            <div class="cart-item-price" id="cartPrice_${p.id}">${fmt(price * item.qty)}</div>
+            <button onclick="cartRemove('${p.id}')" style="color:var(--mist);padding:6px;border-radius:50%;transition:all .2s" onmouseover="this.style.background='#fee'" onmouseout="this.style.background=''" aria-label="Remove ${escHtml(p.name)}">
+              <i data-lucide="x" style="width:14px;height:14px"></i>
+            </button>
+          </div>
+        </div>`;
+          })
+          .join("");
+
+        listEl.innerHTML = rows;
+        if (countEl)
+          countEl.textContent = `(${cart.length} item${cart.length !== 1 ? "s" : ""})`;
+        if (typeof lucide !== "undefined") lucide.createIcons();
+        updateSummary(sub);
+      }
+
+      function updateSummary(sub) {
+        const delivery =
+          sub > 0 && sub >= FREE_DELIVERY_ABOVE
+            ? 0
+            : sub > 0
+              ? DELIVERY_CHARGE
+              : 0;
+        const total = sub + delivery;
+        document.getElementById("summarySubtotal").textContent = fmt(sub);
+        document.getElementById("summaryDelivery").textContent =
+          delivery === 0 && sub > 0 ? "FREE 🎉" : fmt(delivery);
+        document.getElementById("summaryTotal").textContent = fmt(total);
+
+        // Free delivery bar
+        const pct =
+          sub > 0 ? Math.min(100, (sub / FREE_DELIVERY_ABOVE) * 100) : 0;
+        const needed = Math.max(0, FREE_DELIVERY_ABOVE - sub);
+        document.getElementById("freeDelFill").style.width = pct + "%";
+        document.getElementById("freeDelMsg").textContent =
+          needed > 0
+            ? `Add ${fmt(needed)} more for free delivery`
+            : "🎉 Free delivery unlocked!";
+      }
+
+      function cartChangeQty(id, delta) {
+        const products = getProducts();
+        const p = products.find((x) => x.id === id);
+        const cart = getCart();
+        const item = cart.find((x) => x.id === id);
+        if (!item) return;
+        const newQty = item.qty + delta;
+        if (newQty <= 0) {
+          cartRemove(id);
+          return;
+        }
+        setQty(id, newQty);
+        const qtyEl = document.getElementById("cartQty_" + id);
+        const priceEl = document.getElementById("cartPrice_" + id);
+        if (qtyEl) qtyEl.textContent = newQty;
+        const price = p
+          ? p.discountPrice && p.discountPrice < p.price
+            ? p.discountPrice
+            : p.price
+          : 0;
+        if (priceEl) priceEl.textContent = fmt(price * newQty);
+        updateSummary(getCartTotal());
+      }
+
+      function cartRemove(id) {
+        removeFromCart(id);
+        const row = document.getElementById("cartRow_" + id);
+        if (row) {
+          row.style.opacity = "0";
+          row.style.transform = "translateX(20px)";
+          row.style.transition = "all .3s";
+          setTimeout(() => renderCart(), 300);
+        } else renderCart();
+      }
+    </script>
+  </body>
+</html>

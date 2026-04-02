@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FreshLink — How It Works</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <script
+      src="https://unpkg.com/lucide@0.383.0/dist/umd/lucide.min.js"
+      defer
+    ></script>
+    <script src="../js/config.js" defer></script>
+    <script src="../js/cart.js" defer></script>
+    <script src="../js/ui.js" defer></script>
+  </head>
+  <body>
+    <div id="prog" aria-hidden="true"></div>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <header>
+      <nav id="nav">
+        <div class="nav-logo">
+          <a href="index.html">
+            <div class="nav-logo">
+              <a href="index.html" style="display:flex; align-items:center; gap:8px;">
+                <img 
+                  src="../assets/images/logo.png" 
+                  alt="FreshLink Logo"
+                  style="height: 48px; width: auto;"
+                />
+              </a>
+            </div>
+              </a>
+            </a>
+        </div>
+        <div class="nav-mid">
+          <a href="index.html">Home</a><a href="shop.html">Shop</a
+          ><a href="how-it-works.html" class="active">How It Works</a
+          ><a href="about.html">About</a>
+        </div>
+        <div class="nav-right">
+          <a href="cart.html" style="text-decoration: none"
+            ><button class="cart-pill">
+              <i data-lucide="shopping-bag" style="width: 15px"></i> Cart
+              <span class="cart-badge" id="cartBadge">0</span>
+            </button></a
+          ><button class="ham-btn" id="hamBtn">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </nav>
+    </header>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="index.html">🏠 Home</a><a href="shop.html">🛍️ Shop</a
+      ><a href="how-it-works.html" class="active">⚡ How It Works</a
+      ><a href="about.html">🌿 About</a
+      ><a href="cart.html" class="cart-pill-mobile"
+        ><i data-lucide="shopping-bag" style="width: 18px"></i> Cart</a
+      >
+    </nav>
+
+    <main>
+      <!-- Hero -->
+      <section
+        style="
+          background: var(--forest);
+          padding: 120px 40px 80px;
+          text-align: center;
+        "
+      >
+        <div class="inner">
+          <div
+            class="sec-kicker"
+            style="justify-content: center; color: var(--mint)"
+          >
+            Simple Process
+          </div>
+          <h1
+            style="
+              font-family: var(--font-serif);
+              font-size: clamp(40px, 6vw, 72px);
+              font-weight: 700;
+              color: var(--white);
+              line-height: 1.08;
+              margin-bottom: 20px;
+            "
+          >
+            From Farm to <em style="color: var(--amber)">Your Table</em>
+          </h1>
+          <p
+            style="
+              font-size: 18px;
+              color: rgba(255, 255, 255, 0.55);
+              max-width: 560px;
+              margin: 0 auto;
+              line-height: 1.75;
+              font-weight: 300;
+            "
+          >
+            Four simple steps is all it takes to get the freshest produce
+            delivered across Madhya Pradesh.
+          </p>
+        </div>
+      </section>
+
+      <!-- Steps -->
+      <section class="section" style="background: var(--white)">
+        <div class="inner">
+          <div style="display: flex; flex-direction: column; gap: 80px">
+            <div
+              class="reveal"
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 60px;
+                align-items: center;
+              "
+            >
+              <div>
+                <div
+                  style="font-size: 80px; line-height: 1; margin-bottom: 16px"
+                >
+                  🔍
+                </div>
+                <div class="sec-kicker">Step 01</div>
+                <h2 class="sec-title" style="font-size: clamp(28px, 3vw, 44px)">
+                  Browse Fresh <em>Produce</em>
+                </h2>
+                <p class="sec-sub">
+                  Explore hundreds of farm-fresh vegetables and fruits. Each
+                  product shows you exactly which farm it came from, when it was
+                  harvested, and customer ratings from real buyers across MP.
+                </p>
+              </div>
+              <img
+                src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fm=webp&fit=crop&w=600&q=75"
+                alt="Browsing fresh produce"
+                style="
+                  width: 100%;
+                  border-radius: var(--r16);
+                  box-shadow: var(--shadow-xl);
+                "
+                loading="lazy"
+              />
+            </div>
+
+            <div
+              class="reveal"
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 60px;
+                align-items: center;
+              "
+            >
+              <img
+                src="https://images.unsplash.com/photo-1614961908168-0c4e1b9a7f2b?auto=format&fm=webp&fit=crop&w=600&q=75"
+                alt="Adding to cart"
+                style="
+                  width: 100%;
+                  border-radius: var(--r16);
+                  box-shadow: var(--shadow-xl);
+                  order: 1;
+                "
+                loading="lazy"
+                onerror="
+                  this.src =
+                    'https://images.unsplash.com/photo-1553279768-865429fa0078?w=600'
+                "
+              />
+              <div style="order: 2">
+                <div
+                  style="font-size: 80px; line-height: 1; margin-bottom: 16px"
+                >
+                  🛒
+                </div>
+                <div class="sec-kicker">Step 02</div>
+                <h2 class="sec-title" style="font-size: clamp(28px, 3vw, 44px)">
+                  Add to Cart, <em>Anytime</em>
+                </h2>
+                <p class="sec-sub">
+                  Add items instantly with a single tap. Mix vegetables and
+                  fruits in one order. Free delivery on orders above ₹299 — and
+                  we'll show you how close you are as you shop.
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="reveal"
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 60px;
+                align-items: center;
+              "
+            >
+              <div>
+                <div
+                  style="font-size: 80px; line-height: 1; margin-bottom: 16px"
+                >
+                  📲
+                </div>
+                <div class="sec-kicker">Step 03</div>
+                <h2 class="sec-title" style="font-size: clamp(28px, 3vw, 44px)">
+                  Place via <em>WhatsApp</em>
+                </h2>
+                <p class="sec-sub">
+                  Fill in your delivery details and tap "Place Order". Your full
+                  order summary is sent directly to our WhatsApp — no app
+                  download, no account needed. Choose Cash on Delivery or UPI.
+                  We confirm within 30 minutes.
+                </p>
+              </div>
+              <div
+                style="
+                  background: var(--forest);
+                  border-radius: var(--r16);
+                  padding: 32px;
+                  color: var(--lime);
+                "
+              >
+                <div
+                  style="
+                    font-size: 15px;
+                    line-height: 1.8;
+                    font-family: monospace;
+                  "
+                >
+                  🌿 <strong>New FreshLink Order</strong><br />
+                  ━━━━━━━━━━━━━━<br />
+                  🆔 Order: <strong>FL7X2KP</strong><br /><br />
+                  👤 Rahul Sharma<br />
+                  📞 99******80<br />
+                  📍 Patel Nagar, Gwalior<br /><br />
+                  🛒 <strong>Items:</strong><br />
+                  🍅 Tomatoes × 2 kg = ₹90<br />
+                  🥕 Carrots × 1 kg = ₹30<br /><br />
+                  ✅ <strong>Total: ₹120</strong><br />
+                  💵 Cash on Delivery
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="reveal"
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 60px;
+                align-items: center;
+              "
+            >
+              <img
+                src="https://imgs.search.brave.com/DYMwY6WrmS8MmriVjeqDvUXAoYJonMD4e7tm_iMLXaI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/ZnJlZS1waG90by9k/ZWxpdmVyeS1tYW4t/d2VhcmluZy1mYWNl/LW1hc2staG9sZGlu/Zy1ib3gtd2l0aC12/ZWdldGFibGVzXzEy/NjgtMTQ2MTIuanBn/P3NpemU9NjI2JmV4/dD1qcGc"
+                alt="Fresh delivery"
+                style="
+                  width: 100%;
+                  border-radius: var(--r16);
+                  box-shadow: var(--shadow-xl);
+                "
+                loading="lazy"
+                onerror="
+                  this.src =
+                    'https://images.unsplash.com/photo-1447175008436-054170c2e979?w=600'
+                "
+              />
+              <div>
+                <div
+                  style="font-size: 80px; line-height: 1; margin-bottom: 16px"
+                >
+                  🚚
+                </div>
+                <div class="sec-kicker">Step 04</div>
+                <h2 class="sec-title" style="font-size: clamp(28px, 3vw, 44px)">
+                  Fresh at Your <em>Door</em>
+                </h2>
+                <p class="sec-sub">
+                  Your produce is harvested the same day and delivered within 24
+                  hours across Gwalior, Madhya Pradesh. Not happy? Full refund,
+                  zero hassle.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="section" style="background: var(--cream)">
+        <div class="inner" style="max-width: 720px">
+          <div class="text-center" style="margin-bottom: 48px">
+            <div class="sec-kicker" style="justify-content: center">FAQ</div>
+            <h2 class="sec-title">Common Questions</h2>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 2px">
+            <details
+              style="
+                background: var(--white);
+                border: 1px solid var(--linen);
+                border-radius: var(--r12);
+                overflow: hidden;
+              "
+            >
+              <summary
+                style="
+                  padding: 20px 24px;
+                  cursor: pointer;
+                  font-weight: 600;
+                  list-style: none;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                Which cities do you deliver to? <span>+</span>
+              </summary>
+              <p
+                style="
+                  padding: 0 24px 20px;
+                  font-size: 15px;
+                  color: var(--mist);
+                  line-height: 1.7;
+                "
+              >
+                Currently delivering across Gwalior.
+              </p>
+            </details>
+            <details
+              style="
+                background: var(--white);
+                border: 1px solid var(--linen);
+                border-radius: var(--r12);
+                overflow: hidden;
+              "
+            >
+              <summary
+                style="
+                  padding: 20px 24px;
+                  cursor: pointer;
+                  font-weight: 600;
+                  list-style: none;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                What if my produce is not fresh? <span>+</span>
+              </summary>
+              <p
+                style="
+                  padding: 0 24px 20px;
+                  font-size: 15px;
+                  color: var(--mist);
+                  line-height: 1.7;
+                "
+              >
+                Full refund or re-delivery, guaranteed. Just WhatsApp us a photo
+                within 24 hours of receiving your order. No forms, no calls, no
+                hassle.
+              </p>
+            </details>
+            <details
+              style="
+                background: var(--white);
+                border: 1px solid var(--linen);
+                border-radius: var(--r12);
+                overflow: hidden;
+              "
+            >
+              <summary
+                style="
+                  padding: 20px 24px;
+                  cursor: pointer;
+                  font-weight: 600;
+                  list-style: none;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                How do I pay? <span>+</span>
+              </summary>
+              <p
+                style="
+                  padding: 0 24px 20px;
+                  font-size: 15px;
+                  color: var(--mist);
+                  line-height: 1.7;
+                "
+              >
+                Cash on Delivery (COD) or UPI (GPay, PhonePe, Paytm etc.). No
+                advance payment required for COD orders.
+              </p>
+            </details>
+            <details
+              style="
+                background: var(--white);
+                border: 1px solid var(--linen);
+                border-radius: var(--r12);
+                overflow: hidden;
+              "
+            >
+              <summary
+                style="
+                  padding: 20px 24px;
+                  cursor: pointer;
+                  font-weight: 600;
+                  list-style: none;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                Is there a minimum order? <span>+</span>
+              </summary>
+              <p
+                style="
+                  padding: 0 24px 20px;
+                  font-size: 15px;
+                  color: var(--mist);
+                  line-height: 1.7;
+                "
+              >
+                minimum order value of 149.  Delivery is ₹19 for orders under ₹299. Free
+                delivery on orders ₹299 and above.
+              </p>
+            </details>
+            <details
+              style="
+                background: var(--white);
+                border: 1px solid var(--linen);
+                border-radius: var(--r12);
+                overflow: hidden;
+              "
+            >
+              <summary
+                style="
+                  padding: 20px 24px;
+                  cursor: pointer;
+                  font-weight: 600;
+                  list-style: none;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                Do I need to create an account? <span>+</span>
+              </summary>
+              <p
+                style="
+                  padding: 0 24px 20px;
+                  font-size: 15px;
+                  color: var(--mist);
+                  line-height: 1.7;
+                "
+              >
+                No account needed! Just add items to cart, fill in your delivery
+                address, and place the order via WhatsApp. Simple as that.
+              </p>
+            </details>
+          </div>
+          <div class="text-center mt-8">
+            <a href="shop.html" style="text-decoration: none"
+              ><button class="btn btn-primary">Start Shopping →</button></a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer
+      style="
+        background: var(--ink);
+        color: var(--ivory);
+        padding: 32px 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+      "
+    >
+      <div>
+        <p style="font-size: 13px; color: rgba(255, 255, 255, 0.35)">
+          © 2025 FreshLink™ — Delivering freshness across Madhya Pradesh
+        </p>
+        <p style="font-size: 12px; color: rgba(255, 255, 255, 0.6); margin-top: 4px;">
+          Email: <a href="mailto:freshlink@gmail.com" style="color: var(--amber);">freshlink@gmail.com</a> | 
+          Instagram: <a href="https://instagram.com/freshlink.co.in_" target="_blank" rel="noopener" style="color: var(--amber);">@freshlink.co.in_</a> | 
+          Call: <a href="tel:+917987158480" style="color: var(--amber);">+91 79871 58480</a>, <a href="tel:+919424740903" style="color: var(--amber);">+91 94247 40903</a>
+        </p>
+      </div>
+      <a href="shop.html" style="text-decoration: none"
+        ><button class="btn btn-primary btn-sm">Shop Now</button></a
+      >
+    </footer>
+    <button id="scrollTopBtn" aria-label="Scroll to top">
+      <i data-lucide="arrow-up" style="width: 16px"></i>
+    </button>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        if (typeof lucide !== "undefined") lucide.createIcons();
+      });
+    </script>
+  </body>
+</html>

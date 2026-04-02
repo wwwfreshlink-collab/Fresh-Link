@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="FreshLink — Farm-direct vegetables and fruits delivered in Gwalior within 24 hours. No middlemen. Honest prices."
+    />
+    <title>FreshLink — Farm Fresh Delivery in Gwalior</title>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <script
+      src="https://unpkg.com/lucide@0.383.0/dist/umd/lucide.min.js"
+      defer
+    ></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/shop.js"></script>
+    <script src="../js/ui.js" defer></script>
+  </head>
+  <body>
+    <div id="prog" aria-hidden="true"></div>
+    <div id="toast" role="status" aria-live="polite"></div>
+
+    <!-- Delivery Banner -->
+    <div class="delivery-banner" id="deliveryBanner">
+      🚚 Free delivery above <strong>₹299</strong> Gwalior &amp; &nbsp;|&nbsp;
+      24-hour farm-to-door guarantee
+      <span class="close-banner" id="closeBanner" aria-label="Close banner"
+        >✕</span
+      >
+    </div>
+
+    <!-- Navbar -->
+    <header>
+      <nav
+        id="nav"
+        role="navigation"
+        aria-label="Main navigation"
+        style="top: 40px"
+      >
+        <div class="nav-logo">
+          <a href="index.html">
+            <div class="nav-logo">
+              <a
+                href="index.html"
+                style="display: flex; align-items: center; gap: 8px"
+              >
+                <img
+                  src="../assets/images/logo.png"
+                  alt="FreshLink Logo"
+                  style="height: 56px; width: auto"
+                />
+              </a>
+            </div>
+          </a>
+        </div>
+        <div class="nav-mid">
+          <a href="index.html" class="active">Home</a>
+          <a href="shop.html">Shop</a>
+
+          <a href="how-it-works.html">How It Works</a>
+          <a href="about.html">About</a>
+        </div>
+        <div class="nav-right">
+          <a
+            href="cart.html"
+            style="text-decoration: none"
+            aria-label="View cart"
+          >
+            <button class="cart-pill">
+              <i
+                data-lucide="shopping-bag"
+                style="width: 15px; height: 15px"
+              ></i>
+              Cart <span class="cart-badge" id="cartBadge">0</span>
+            </button>
+          </a>
+          <button
+            class="ham-btn"
+            id="hamBtn"
+            aria-label="Toggle mobile menu"
+            aria-expanded="false"
+          >
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Mobile Nav -->
+    <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+      <a href="index.html" class="active">🏠 Home</a>
+      <a href="shop.html">🛍️ Shop</a>
+      <a href="how-it-works.html">⚡ How It Works</a>
+      <a href="about.html">🌿 About Us</a>
+      <a href="cart.html" class="cart-pill-mobile">
+        <i data-lucide="shopping-bag" style="width: 18px; height: 18px"></i>
+        View Cart
+        <span
+          class="cart-badge"
+          style="background: var(--amber); color: var(--forest)"
+          >0</span
+        >
+      </a>
+    </nav>
+
+    <main style="padding-top: 40px">
+      <!-- Hero -->
+      <section class="hero" id="hero" aria-label="Hero">
+        <div class="hero-bg-blob blob1"></div>
+        <div class="hero-bg-blob blob2"></div>
+        <div class="hero-bg-blob blob3"></div>
+
+        <div class="hero-left">
+          <div class="hero-kicker">
+            <span class="kicker-dot" aria-hidden="true"></span>
+            Farm Direct · Gwalior Delivery
+          </div>
+          <h1 class="hero-h1">
+            Farm Fresh<br />
+            <em>Vegetables</em><br />
+            <span class="accent-line">to Your Door.</span>
+          </h1>
+          <p class="hero-sub">
+            50+ local farms. Zero middlemen. Your produce travels hours, not
+            weeks — guaranteed within 24 hours or full refund.
+          </p>
+          <div class="hero-cta">
+            <a href="shop.html" style="text-decoration: none">
+              <button class="btn btn-primary">
+                <i data-lucide="leaf" style="width: 17px; height: 17px"></i>
+                Shop Now
+              </button>
+            </a>
+            <a href="how-it-works.html" style="text-decoration: none">
+              <button class="btn btn-outline">How It Works</button>
+            </a>
+          </div>
+          <div class="hero-stats">
+            <div class="hstat">
+              <div class="hstat-num">50+</div>
+              <div class="hstat-lbl">Local Farms</div>
+            </div>
+            <div class="hstat">
+              <div class="hstat-num">24hrs</div>
+              <div class="hstat-lbl">Farm to Door</div>
+            </div>
+            <div class="hstat">
+              <div class="hstat-num">500+</div>
+              <div class="hstat-lbl">Happy Families</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-right" aria-hidden="true">
+          <div class="hero-card">
+            <img
+              src="https://imgs.search.brave.com/DucfXcHZhvcR4LcFV9sKRqLPZxMpBR7m0zYIzswGk3Q/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NDE0a2hmaC04Qkwu/anBn"
+              alt="Fresh organic tomatoes"
+              loading="eager"
+            />
+            <div class="hero-card-body">
+              <div class="hero-card-name">Desi Tomatoes</div>
+              <div class="hero-card-farm">local Farms,</div>
+              <div class="hero-card-price">₹45/kg</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Ticker -->
+      <div class="ticker" aria-hidden="true">
+        <div class="ticker-inner">
+          <span class="ticker-item"
+            >Tomatoes <span class="ticker-sep">◆</span></span
+          >
+          <span class="ticker-item"
+            >Carrots <span class="ticker-sep">◆</span></span
+          >
+          <span class="ticker-item"
+            >Spinach <span class="ticker-sep">◆</span></span
+          >
+          <span class="ticker-item"
+            >Capsicum <span class="ticker-sep">◆</span></span
+          >
+          <span class="ticker-item"
+            >Alphonso Mangoes <span class="ticker-sep">◆</span></span
+          >
+          <span class="ticker-item"
+            >Kashmiri Apples <span class="ticker-sep">◆</span></span
+          >
+          <span class="ticker-item"
+            >Bhindi <span class="ticker-sep">◆</span></span
+          >
+          <span class="ticker-item"
+            >Green Peas <span class="ticker-sep">◆</span></span
+          >
+          <span class="ticker-item"
+            >Tomatoes <span class="ticker-sep">◆</span></span
+          >
+          <span class="ticker-item"
+            >Carrots <span class="ticker-sep">◆</span></span
+          >
+          <span class="ticker-item"
+            >Spinach <span class="ticker-sep">◆</span></span
+          >
+          <span class="ticker-item"
+            >Capsicum <span class="ticker-sep">◆</span></span
+          >
+          <span class="ticker-item"
+            >Alphonso Mangoes <span class="ticker-sep">◆</span></span
+          >
+          <span class="ticker-item"
+            >Kashmiri Apples <span class="ticker-sep">◆</span></span
+          >
+          <span class="ticker-item"
+            >Bhindi <span class="ticker-sep">◆</span></span
+          >
+          <span class="ticker-item"
+            >Green Peas <span class="ticker-sep">◆</span></span
+          >
+        </div>
+      </div>
+
+      <!-- Categories -->
+      <section
+        class="section"
+        id="categories"
+        style="background: var(--white)"
+        aria-label="Shop by category"
+      >
+        <div class="inner">
+          <div class="text-center">
+            <div class="sec-kicker" style="justify-content: center">Browse</div>
+            <h2 class="sec-title">Shop by <em>Category</em></h2>
+            <p class="sec-sub">
+              From crisp leafy greens to hearty root vegetables — everything
+              straight from the farm.
+            </p>
+          </div>
+          <div class="categories-grid">
+            <a
+              href="shop.html"
+              class="category-card reveal"
+              aria-label="Shop Leafy Vegetables"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fm=webp&fit=crop&w=600&q=75"
+                alt="Leafy green vegetables"
+                width="600"
+                height="200"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="category-card-body">
+                <div class="category-card-title">Leafy Vegetables</div>
+                <p class="category-card-sub">
+                  Spinach, Methi, Kale, Coriander & more. Rich in iron and
+                  nutrients.
+                </p>
+                <span class="category-tag">Shop Now →</span>
+              </div>
+            </a>
+            <a
+              href="shop.html"
+              class="category-card reveal reveal-d1"
+              aria-label="Shop Root Vegetables"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1447175008436-054170c2e979?auto=format&fm=webp&fit=crop&w=600&q=75"
+                alt="Root vegetables"
+                width="600"
+                height="200"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="category-card-body">
+                <div class="category-card-title">Root Vegetables</div>
+                <p class="category-card-sub">
+                  Carrots, Beetroot, Radish & Potatoes. Harvested fresh from the
+                  soil.
+                </p>
+                <span class="category-tag">Shop Now →</span>
+              </div>
+            </a>
+            <a
+              href="shop.html"
+              class="category-card reveal reveal-d2"
+              aria-label="Shop Seasonal Fruits"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fm=webp&fit=crop&w=600&q=75"
+                alt="Fresh fruits"
+                width="600"
+                height="200"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="category-card-body">
+                <div class="category-card-title">Fresh Fruits</div>
+                <p class="category-card-sub">
+                  Mangoes, Apples, Grapes & more. Peak flavour at peak season.
+                </p>
+                <span class="category-tag">Shop Now →</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Featured Products -->
+      <section
+        class="section"
+        id="featured"
+        style="background: var(--cream)"
+        aria-label="Featured products"
+      >
+        <div class="inner">
+          <div class="text-center" style="margin-bottom: 40px">
+            <div class="sec-kicker" style="justify-content: center">
+              Handpicked
+            </div>
+            <h2 class="sec-title">Today's Best <em>Picks</em></h2>
+            <p class="sec-sub">Fresh from our farm partners this morning.</p>
+          </div>
+          <div class="prod-grid" id="featuredGrid"></div>
+          <div class="text-center mt-8">
+            <a href="shop.html" style="text-decoration: none">
+              <button class="btn btn-dark">
+                View All Products
+                <i data-lucide="arrow-right" style="width: 16px"></i>
+              </button>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- How It Works -->
+      <section
+        class="section"
+        id="how"
+        style="background: var(--white)"
+        aria-label="How FreshLink works"
+      >
+        <div class="inner">
+          <div class="text-center" style="margin-bottom: 24px">
+            <div class="sec-kicker" style="justify-content: center">
+              Our Process
+            </div>
+            <h2 class="sec-title">From Soil to Your <em>Table</em></h2>
+          </div>
+          <div class="how-steps">
+            <div class="how-step reveal">
+              <div class="how-icon-wrap" style="background: var(--forest)">
+                <i
+                  data-lucide="search"
+                  style="width: 28px; height: 28px; color: var(--lime)"
+                ></i>
+              </div>
+              <div class="how-step-num">Step 01</div>
+              <div class="how-step-title">Browse</div>
+              <p class="how-step-desc">
+                Explore fresh produce from 50+ verified local farms across
+                India.
+              </p>
+            </div>
+            <div class="how-step reveal reveal-d1">
+              <div class="how-icon-wrap" style="background: var(--fern)">
+                <i
+                  data-lucide="shopping-cart"
+                  style="width: 28px; height: 28px; color: var(--lime)"
+                ></i>
+              </div>
+              <div class="how-step-num">Step 02</div>
+              <div class="how-step-title">Add to Cart</div>
+              <p class="how-step-desc">
+                Choose your items. See exactly which farm they came from.
+              </p>
+            </div>
+            <div class="how-step reveal reveal-d2">
+              <div class="how-icon-wrap" style="background: var(--leaf)">
+                <i
+                  data-lucide="credit-card"
+                  style="width: 28px; height: 28px; color: var(--white)"
+                ></i>
+              </div>
+              <div class="how-step-num">Step 03</div>
+              <div class="how-step-title">Pay Easily</div>
+              <p class="how-step-desc">
+                Cash on Delivery or UPI — your choice. Safe &amp; simple.
+              </p>
+            </div>
+            <div class="how-step reveal reveal-d3">
+              <div class="how-icon-wrap" style="background: var(--amber)">
+                <i
+                  data-lucide="truck"
+                  style="width: 28px; height: 28px; color: var(--forest)"
+                ></i>
+              </div>
+              <div class="how-step-num">Step 04</div>
+              <div class="how-step-title">Fresh Delivery</div>
+              <p class="how-step-desc">
+                Harvested &amp; delivered within 24 hours. Freshness guaranteed
+                or full refund.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Strip -->
+      <div class="features-strip" role="list" aria-label="Why choose FreshLink">
+        <div class="feat reveal" role="listitem">
+          <i data-lucide="zap" class="feat-icon"></i>
+          <div class="feat-title">Zero Middlemen</div>
+          <p class="feat-desc">
+            Farmers earn 3× more. You pay 40% less. Everyone wins.
+          </p>
+        </div>
+        <div class="feat reveal reveal-d1" role="listitem">
+          <i data-lucide="shield-check" class="feat-icon"></i>
+          <div class="feat-title">Verified Organic</div>
+          <p class="feat-desc">
+            Every farm is background-verified. Certifications audited quarterly.
+          </p>
+        </div>
+        <div class="feat reveal reveal-d2" role="listitem">
+          <i data-lucide="truck" class="feat-icon"></i>
+          <div class="feat-title">24-hour Delivery</div>
+          <p class="feat-desc">
+            Picked fresh & at your door in Gwalior within a day.
+          </p>
+        </div>
+        <div class="feat reveal reveal-d3" role="listitem">
+          <i data-lucide="badge-check" class="feat-icon"></i>
+          <div class="feat-title">Freshness Guarantee</div>
+          <p class="feat-desc">
+            Not satisfied? Full refund. No forms. No hassle.
+          </p>
+        </div>
+      </div>
+
+      <!-- Mission -->
+      <section class="mission-section" id="mission" aria-label="Our mission">
+        <div class="inner">
+          <div
+            class="sec-kicker"
+            style="justify-content: center; color: var(--mint)"
+          >
+            Our Mission
+          </div>
+          <h2 class="mission-h2">Food should be<br /><em>honest.</em></h2>
+          <p class="mission-sub">
+            We built FreshLink because a tomato that costs ₹10 at the farm
+            shouldn't cost ₹50 at your door. We cut the entire chain — farmers
+            list directly, you checkout seamlessly, we handle logistics only.
+          </p>
+          <a href="about.html" style="text-decoration: none">
+            <button class="btn btn-ghost">
+              Read Our Story
+              <i data-lucide="arrow-right" style="width: 16px"></i>
+            </button>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-name">Fresh<span>Link</span>™</div>
+          <p class="footer-tagline">
+            Connecting farmers and families in Gwalior. Fresher food, fairer
+            prices, stronger rural communities.
+          </p>
+        </div>
+        <div>
+          <div class="footer-col-title">Shop</div>
+          <ul class="footer-links">
+            <li><a href="shop.html">Vegetables</a></li>
+            <li><a href="shop.html">Fruits</a></li>
+            <li><a href="cart.html">My Cart</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Company</div>
+          <ul class="footer-links">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="how-it-works.html">How It Works</a></li>
+            <li><a href="#mission">Our Mission</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Contact</div>
+          <ul class="footer-links">
+            <li>
+              <a
+                href="https://wa.me/918815003949"
+                target="_blank"
+                rel="noopener"
+                >WhatsApp Us</a
+              >
+            </li>
+            <li><a href="mailto:hello@freshlink.in">hello@freshlink.in</a></li>
+            <li><a href="mailto:freshlink@gmail.com">freshlink@gmail.com</a></li>
+            <li><a href="tel:+917987158480">+91 79871 58480</a></li>
+            <li><a href="tel:+919424740903">+91 94247 40903</a></li>
+            <li><a href="https://instagram.com/freshlink.co.in_" target="_blank" rel="noopener">Instagram: @freshlink.co.in_</a></li>
+            <li><a href="#">Gwalior, MP, India</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2025 FreshLink™. Made with 🌿 in India.</p>
+        <div class="footer-badges">
+          <span class="fbadge"
+            ><i data-lucide="lock" style="width: 11px"></i> Secure</span
+          >
+          <span class="fbadge"
+            ><i data-lucide="globe" style="width: 11px"></i> Made in India</span
+          >
+        </div>
+      </div>
+    </footer>
+
+    <button id="scrollTopBtn" aria-label="Scroll to top">
+      <i data-lucide="arrow-up" style="width: 16px"></i>
+    </button>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        if (typeof lucide !== "undefined") lucide.createIcons();
+        // Adjust nav top for banner
+        const banner = document.getElementById("deliveryBanner");
+        const nav = document.getElementById("nav");
+        if (banner && nav) {
+          const h = banner.offsetHeight;
+          nav.style.top = h + "px";
+          document.querySelector("main").style.paddingTop = 66 + h + "px";
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -92,14 +92,14 @@ function animateBadge() {
 }
 
 /* ── Toast ── */
-let toastTimer;
+let cartToastTimer;
 function showToast(msg, dur = 2500) {
   const t = document.getElementById('toast');
   if (!t) return;
-  clearTimeout(toastTimer);
+  clearTimeout(cartToastTimer);
   t.textContent = msg;
   t.classList.add('show');
-  toastTimer = setTimeout(() => t.classList.remove('show'), dur);
+  cartToastTimer = setTimeout(() => t.classList.remove('show'), dur);
 }
 
 /* ── Star rating helper ── */

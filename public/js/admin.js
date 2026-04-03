@@ -324,13 +324,13 @@ function getVal(id) { const el = document.getElementById(id); return el ? el.val
 function setVal(id, val) { const el = document.getElementById(id); if(el) el.value = val ?? ''; }
 function openModal(id) { const el = document.getElementById(id); if(el) el.classList.add('show'); }
 function closeModal(id) { const el = document.getElementById(id); if(el) el.classList.remove('show'); }
-let toastTimer;
+let adminToastTimer;
 function adminToast(msg) {
   const t = document.getElementById('adminToast');
   if (!t) return;
-  clearTimeout(toastTimer);
+  clearTimeout(adminToastTimer);
   t.textContent = msg; t.style.opacity = '1'; t.style.transform = 'translateY(0)';
-  toastTimer = setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateY(10px)'; }, 3000);
+  adminToastTimer = setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateY(10px)'; }, 3000);
 }
 
 /* ── On load ── */

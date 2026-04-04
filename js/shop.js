@@ -12,7 +12,15 @@ const PAGE_SIZE = 12;
 let isLoading = false;
 
 document.addEventListener('DOMContentLoaded', () => {
-  allProducts = SHOP_PRODUCT_LIST;
+  // Read from localStorage first — admin panel saves changes there.
+  // Fall back to the hardcoded list only if nothing has been saved yet.
+  try {
+    const stored = localStorage.getItem(LS_PRODUCTS);
+    const parsed = stored ? JSON.parse(stored) : null;
+    allProducts = (parsed && parsed.length) ? parsed : SHOP_PRODUCT_LIST;
+  } catch (e) {
+    allProducts = SHOP_PRODUCT_LIST;
+  }
   applyFilterSort();
   setupInfiniteScroll();
 });
@@ -32,8 +40,8 @@ function doSort(val) {
   displayedCount = 0;
 
   let filtered = currentFilter === 'all'
-    ? [...SHOP_PRODUCT_LIST]
-    : SHOP_PRODUCT_LIST.filter(p => p.category === currentFilter);
+    ? [...allProducts]
+    : allProducts.filter(p => p.category === currentFilter);
 
   if (val === 'pa') filtered.sort((a,b) => a.price - b.price);
   else if (val === 'pd') filtered.sort((a,b) => b.price - a.price);

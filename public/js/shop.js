@@ -271,7 +271,20 @@ const SHOP_PRODUCT_LIST = [
  rating: 4.5,
  reviews: 120,
  category: "vegetable"
-}
+},
+{
+  id: "fruit",
+  name: "Fresh Apples",
+  image: "../assets/images/redapple.jpg",
+  farm: "local Farms",
+  desc: "Fresh red apples.",
+  price: 95,
+  unit: "kg",
+  rating: 4.7,
+  reviews: 80,
+  category: "fruit",
+  badge: "organic"
+ }
 ];
 
 /* Seed localStorage so cart.js getProducts() returns the correct list */

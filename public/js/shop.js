@@ -215,7 +215,7 @@ const SHOP_PRODUCT_LIST = [
  image: "../assets/images/tomato.jpg",
  farm: "local Farms",
  desc: "Fresh juicy tomatoes.",
- price: 45,
+ price: 40,
  unit: "kg",
  rating: 4.8,
  reviews: 214,

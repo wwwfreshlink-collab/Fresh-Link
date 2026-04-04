@@ -229,7 +229,7 @@ const SHOP_PRODUCT_LIST = [
  farm: "local Farms",
  desc: "Fresh green spinach.",
  price: 25,
- unit: "bunch",
+ unit: "kg",
  rating: 4.7,
  reviews: 180,
  category: "vegetable",

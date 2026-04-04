@@ -22,7 +22,7 @@ const LOCKOUT_MS      = 5 * 60 * 1000;
    3. Deploy → Web App → "Anyone" access
    4. Paste your Web App URL below
 */
-const GSHEET_URL = ''; // e.g. 'https://script.google.com/macros/s/AKfy.../exec'
+var GSHEET_URL = ''; // e.g. 'https://script.google.com/macros/s/AKfy.../exec'
 
 /* Storage keys */
 const LS_PRODUCTS = 'fl_products_v3';

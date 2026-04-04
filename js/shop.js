@@ -287,10 +287,8 @@ const SHOP_PRODUCT_LIST = [
   try {
     const stored = localStorage.getItem(LS_PRODUCTS);
     const parsed = stored ? JSON.parse(stored) : null;
-    /* Only overwrite if nothing is stored, or if the stored list still
-       uses the old DEFAULT_PRODUCTS IDs (p1, p2 …) instead of ours */
-    const hasOldIds = parsed && parsed.length && /^p\d+$/.test(parsed[0].id);
-    if (!parsed || !parsed.length || hasOldIds) {
+    /* Only seed if nothing is stored yet — never overwrite admin changes */
+    if (!parsed || !parsed.length) {
       localStorage.setItem(LS_PRODUCTS, JSON.stringify(SHOP_PRODUCT_LIST));
     }
   } catch(e) {

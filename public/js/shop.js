@@ -266,7 +266,7 @@ const SHOP_PRODUCT_LIST = [
  image: "../assets/images/potato.jpg",
  farm: "local Farms",
  desc: "Farm potatoes.",
- price: 20,
+ price: 8,
  unit: "kg",
  rating: 4.5,
  reviews: 120,
@@ -298,7 +298,7 @@ const SHOP_PRODUCT_LIST = [
  },
  {
   id: "baby potato",
-  name: "Fresh Baby potato",
+  name: "Baby potato",
   image: "../assets/images/baby potato.jpg",
   farm: "local Farms",
   desc: "Fresh Baby Potatoes.",
@@ -319,8 +319,9 @@ const SHOP_PRODUCT_LIST = [
   rating: 4.7,
   reviews: 80,
   category: "vegetable"
- }
+ },
  
+
 
 ];
 

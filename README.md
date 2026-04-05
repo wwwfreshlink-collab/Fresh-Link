@@ -37,20 +37,6 @@ It is designed to run without a backend. Product data and cart data are stored i
 
 ```text
 Fresh-Link/
-  assets/
-    images/
-  css/
-    main.css
-    variables.css
-    admin.css
-  js/
-    config.js
-    cart.js
-    checkout.js
-    shop.js
-    ui.js
-    gsheet.js
-    admin.js
   public/
     index.html
     shop.html
@@ -61,19 +47,40 @@ Fresh-Link/
     admin/
       index.html
     css/
+      main.css
+      variables.css
+      admin.css
     js/
+      config.js
+      cart.js
+      checkout.js
+      shop.js
+      ui.js
+      gsheet.js
+      admin.js
     assets/
+      images/
   README.md
 ```
 
-## Important Path Note
+## Website Pages
 
-This repository includes both root-level and `public/` asset folders.
+All pages are located under `public/`:
+- `index.html` - Home + featured products
+- `shop.html` - Product listing, filter/sort/search, infinite scroll
+- `cart.html` - Cart management
+- `checkout.html` - Checkout form and WhatsApp order handoff
+- `how-it-works.html` - Process overview
+- `about.html` - Brand/about information
+- `admin/index.html` - Login + dashboard + product management + sync settings
 
-- Customer pages in `public/*.html` load JS/CSS from root folders (`../js`, `../css`).
-- Admin page in `public/admin/index.html` loads JS/CSS from `public/js` and `public/css`.
+## Tech Stack
 
-If you update config or shared behavior, keep both locations aligned where needed.
+- HTML5
+- CSS3 (custom variables and styles)
+- Vanilla JavaScript
+- Browser localStorage for persistence
+- Optional Google Apps Script + Google Sheets integration
 
 ## Quick Start (Local)
 
@@ -102,7 +109,7 @@ Then open:
 
 ## Core Configuration
 
-Main constants live in `js/config.js` and `public/js/config.js`.
+Main constants live in `public/js/config.js`.
 
 Key values:
 

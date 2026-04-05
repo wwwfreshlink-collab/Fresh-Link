@@ -8,7 +8,7 @@ let filteredProducts = [];
 let currentFilter    = 'all';
 let currentSort      = '';
 let displayedCount   = 0;
-const PAGE_SIZE      = 12;   // batch size – kept as-is
+const PAGE_SIZE      = 24;   // batch size – updated to show all 20 products at once
 let isLoading        = false;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -62,7 +62,23 @@ function applyFilterSort() {
     `${filteredProducts.length} product${filteredProducts.length !== 1 ? 's' : ''}`;
 
   const grid = document.getElementById('prodGrid') || document.getElementById('featuredGrid');
-  if (grid) { grid.innerHTML = ''; displayedCount = 0; loadMoreProducts(); }
+  if (grid) { 
+    grid.innerHTML = ''; 
+    displayedCount = 0; 
+    loadMoreProducts();
+    
+    // Extra safety: if screen is huge and 12 isn't enough to scroll, 
+    // load one more batch automatically.
+    setTimeout(() => {
+       const sentinel = document.getElementById('sentinel');
+       if (sentinel && sentinel.style.display !== 'none') {
+         const rect = sentinel.getBoundingClientRect();
+         if (rect.top <= (window.innerHeight || document.documentElement.clientHeight)) {
+           loadMoreProducts();
+         }
+       }
+    }, 500);
+  }
 }
 
 /* ================= LOAD PRODUCTS ================= */
@@ -71,12 +87,14 @@ function loadMoreProducts() {
   const grid = document.getElementById('prodGrid') || document.getElementById('featuredGrid');
   if (!grid || isLoading) return;
 
-  /* On the featured grid (home page) cap at 8; on shop page use PAGE_SIZE */
   const isFeatured = !!document.getElementById('featuredGrid');
   const limit      = isFeatured ? 8 : PAGE_SIZE;
 
-  /* Nothing left to render */
-  if (displayedCount >= filteredProducts.length) return;
+  if (displayedCount >= filteredProducts.length) {
+    const sentinel = document.getElementById('sentinel');
+    if (sentinel) sentinel.style.display = 'none';
+    return;
+  }
 
   isLoading = true;
 
@@ -87,38 +105,19 @@ function loadMoreProducts() {
   if (typeof lucide !== 'undefined') lucide.createIcons();
   updateAllBadges();
 
-  /* ── SENTINEL VISIBILITY ── */
-  const sentinel = document.getElementById('sentinel');
-  if (sentinel) {
-    if (displayedCount >= filteredProducts.length) {
-      /* All products rendered – hide sentinel */
-      sentinel.style.display = 'none';
-    } else {
-      /* More products remain – show sentinel */
-      sentinel.style.display = 'block';
-
-      /*
-       * FIX (Bug 1):
-       * If the sentinel is already inside (or within 200 px of) the viewport
-       * right after this batch renders – e.g. on large screens where 12 cards
-       * don't push the sentinel below the fold – the IntersectionObserver will
-       * NOT re-fire (it already reported "intersecting = true" once and the
-       * element hasn't left the viewport yet).
-       *
-       * Solution: after releasing the lock, immediately schedule another load
-       * when the sentinel is already visible.
-       */
-      isLoading = false;
-      const rect = sentinel.getBoundingClientRect();
-      const alreadyVisible = rect.top <= (window.innerHeight || document.documentElement.clientHeight) + 200;
-      if (alreadyVisible) {
-        loadMoreProducts();   // load next batch right away
-      }
-      return;                 // exit early so we don't double-set isLoading
-    }
-  }
-
   isLoading = false;
+
+  // If we still have more to show and sentinel is visible, load more immediately
+  const sentinel = document.getElementById('sentinel');
+  if (sentinel && displayedCount < filteredProducts.length) {
+    sentinel.style.display = 'block';
+    const rect = sentinel.getBoundingClientRect();
+    if (rect.top <= (window.innerHeight || document.documentElement.clientHeight) + 100) {
+      loadMoreProducts();
+    }
+  } else if (sentinel) {
+    sentinel.style.display = 'none';
+  }
 }
 
 /* ================= PRODUCT CARD ================= */
@@ -150,7 +149,7 @@ function buildProductCard(p) {
   <article class="prod-card reveal">
     <div class="prod-card-img-wrap">
       <img src="${p.image}" alt="${p.name}" loading="lazy"
-           onerror="this.src='../assets/images/default.jpg'" />
+           onerror="this.src='assets/images/default.jpg'" />
       ${badgeHtml}
     </div>
     <div class="prod-card-body">
@@ -221,7 +220,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "tomato",
     name: "Desi Tomatoes",
-    image: "../assets/images/tomato.jpg",
+    image: "assets/images/tomato.jpg",
     farm: "local Farms",
     desc: "Fresh juicy tomatoes.",
     price: 15,
@@ -233,7 +232,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "spinach",
     name: "Fresh Spinach",
-    image: "../assets/images/spinach.jpg",
+    image: "assets/images/spinach.jpg",
     farm: "local Farms",
     desc: "Fresh green spinach.",
     price: 8,
@@ -245,7 +244,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "carrot",
     name: "Organic Carrots",
-    image: "../assets/images/carrot.jpg",
+    image: "assets/images/carrot.jpg",
     farm: "local Farms",
     desc: "Crunchy organic carrots.",
     price: 30,
@@ -257,7 +256,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "brinjal",
     name: "Brinjal",
-    image: "../assets/images/brinjal.jpg",
+    image: "assets/images/brinjal.jpg",
     farm: "local Farms",
     desc: "Fresh brinjals.",
     price: 20,
@@ -269,7 +268,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "potato",
     name: "Potato",
-    image: "../assets/images/potato.jpg",
+    image: "assets/images/potato.jpg",
     farm: "local Farms",
     desc: "Farm potatoes.",
     price: 15,
@@ -281,7 +280,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "capsicum",
     name: "Fresh Capsicum",
-    image: "../assets/images/capsicum.jpg",
+    image: "assets/images/capsicum.jpg",
     farm: "local Farms",
     desc: "Fresh capsicums.",
     price: 65,
@@ -293,7 +292,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "cauliflower",
     name: "Fresh Cauliflower",
-    image: "../assets/images/cauliflower.jpg",
+    image: "assets/images/cauliflower.jpg",
     farm: "local Farms",
     desc: "Fresh cauliflower.",
     price: 18,
@@ -305,7 +304,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "baby potato",
     name: "Baby potato",
-    image: "../assets/images/babypotato.jpg",
+    image: "assets/images/babypotato.jpg",
     farm: "local Farms",
     desc: "Fresh Baby Potatoes.",
     price: 7,
@@ -317,7 +316,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "curry leaves",
     name: "Fresh Curry leaves",
-    image: "../assets/images/curryleaves.jpg",
+    image: "assets/images/curryleaves.jpg",
     farm: "local Farms",
     desc: "Fresh curry leaves.",
     price: 15,
@@ -329,7 +328,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "red onion",
     name: "Red Onion",
-    image: "../assets/images/redonion.jpg",
+    image: "assets/images/redonion.jpg",
     farm: "local Farms",
     desc: "farm Red Onion.",
     price: 16,
@@ -341,7 +340,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "Frozen Peas",
     name: "Frozen Peas",
-    image: "../assets/images/frozenpea.jpg",
+    image: "assets/images/frozenpea.jpg",
     farm: "local Farms",
     desc: "Frozen Peas.",
     price: 80,
@@ -353,7 +352,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "Karela",
     name: "Karela",
-    image: "../assets/images/karela.jpg",
+    image: "assets/images/karela.jpg",
     farm: "local Farms",
     desc: "Karela.",
     price: 50,
@@ -365,7 +364,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "Drumstick",
     name: "Drumstick",
-    image: "../assets/images/drumstick.jpg",
+    image: "assets/images/drumstick.jpg",
     farm: "local Farms",
     desc: "Drum Stick.",
     price: 40,
@@ -377,7 +376,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "Lady Finger",
     name: "Lady Finger",
-    image: "../assets/images/ladyfinger.jpg",
+    image: "assets/images/ladyfinger.jpg",
     farm: "local Farms",
     desc: "Lady Finger.",
     price: 50,
@@ -389,7 +388,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "bottle gaurd",
     name: "Bottle gaurd",
-    image: "../assets/images/bottlegurad.jpg",
+    image: "assets/images/bottlegurad.jpg",
     farm: "local Farms",
     desc: "Bottle gaurd.",
     price: 8,
@@ -401,7 +400,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "methi",
     name: "Fresh Methi",
-    image: "../assets/images/methi.jpg",
+    image: "assets/images/methi.jpg",
     farm: "local Farms",
     desc: "Fresh Methi.",
     price: 10,
@@ -413,7 +412,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "Corn",
     name: "Corn",
-    image: "../assets/images/corn.jpg",
+    image: "assets/images/corn.jpg",
     farm: "local Farms",
     desc: "Corn.",
     price: 20,
@@ -425,7 +424,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "reddish",
     name: "Reddish",
-    image: "../assets/images/radish.jpg",
+    image: "assets/images/radish.jpg",
     farm: "local Farms",
     desc: "Reddish.",
     price: 8,
@@ -435,28 +434,28 @@ const SHOP_PRODUCT_LIST = [
     category: "vegetable"
   },
   {
-    id: "Broccoli",
-    name: "Broccoli",
-    image: "../assets/images/broccoli.jpg",
+    id: "red apple",
+    name: "Red Apple",
+    image: "assets/images/redapple.jpg",
     farm: "local Farms",
-    desc: "Broccoli.",
-    price: 60,
+    desc: "Kashmiri Red Apples.",
+    price: 160,
     unit: "kg",
-    rating: 4.7,
-    reviews: 80,
-    category: "vegetable"
+    rating: 4.8,
+    reviews: 276,
+    category: "fruit"
   },
   {
-    id: "Mushroom",
-    name: "Fresh Mushroom",
-    image: "../assets/images/mushroom.jpg",
+    id: "nashik grapes",
+    name: "Nashik Grapes",
+    image: "assets/images/grapes.jpg",
     farm: "local Farms",
-    desc: "Fresh Mushroom.",
-    price: 50,
-    unit: "250g box",
+    desc: "Sweet seedless grapes.",
+    price: 80,
+    unit: "kg",
     rating: 4.7,
-    reviews: 80,
-    category: "vegetable"
+    reviews: 192,
+    category: "fruit"
   }
 ];
 

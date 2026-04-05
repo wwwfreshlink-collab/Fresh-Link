@@ -149,7 +149,7 @@ function buildProductCard(p) {
   <article class="prod-card reveal">
     <div class="prod-card-img-wrap">
       <img src="${p.image}" alt="${p.name}" loading="lazy"
-           onerror="this.src='../assets/images/default.jpg'" />
+           onerror="this.src='assets/images/default.jpg'" />
       ${badgeHtml}
     </div>
     <div class="prod-card-body">
@@ -434,28 +434,28 @@ const SHOP_PRODUCT_LIST = [
     category: "vegetable"
   },
   {
-    id: "Broccoli",
-    name: "Broccoli",
-    image: "assets/images/broccoli.jpg",
+    id: "red apple",
+    name: "Red Apple",
+    image: "assets/images/redapple.jpg",
     farm: "local Farms",
-    desc: "Broccoli.",
-    price: 60,
+    desc: "Kashmiri Red Apples.",
+    price: 160,
     unit: "kg",
-    rating: 4.7,
-    reviews: 80,
-    category: "vegetable"
+    rating: 4.8,
+    reviews: 276,
+    category: "fruit"
   },
   {
-    id: "Mushroom",
-    name: "Fresh Mushroom",
-    image: "assets/images/mushroom.jpg",
+    id: "nashik grapes",
+    name: "Nashik Grapes",
+    image: "assets/images/grapes.jpg",
     farm: "local Farms",
-    desc: "Fresh Mushroom.",
-    price: 50,
-    unit: "250g box",
+    desc: "Sweet seedless grapes.",
+    price: 80,
+    unit: "kg",
     rating: 4.7,
-    reviews: 80,
-    category: "vegetable"
+    reviews: 192,
+    category: "fruit"
   }
 ];
 

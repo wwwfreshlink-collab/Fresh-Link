@@ -443,8 +443,8 @@ const SHOP_PRODUCT_LIST = [
   image: "../assets/images/mushroom.jpg",
   farm: "local Farms",
   desc: "Fresh Mushroom.",
-  price: 42,
-  unit: "box",
+  price: 50,
+  unit: "250g box",
   rating: 4.7,
   reviews: 80,
   category: "vegetable"

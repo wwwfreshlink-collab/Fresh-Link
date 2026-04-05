@@ -448,7 +448,7 @@ const SHOP_PRODUCT_LIST = [
   rating: 4.7,
   reviews: 80,
   category: "vegetable"
- },
+ }
 
 ];
 

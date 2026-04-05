@@ -296,7 +296,7 @@ const SHOP_PRODUCT_LIST = [
  {
   id: "baby potato",
   name: "Baby potato",
-  image: "../assets/images/baby potato.jpg",
+  image: "../assets/images/babypotato.jpg",
   farm: "local Farms",
   desc: "Fresh Baby Potatoes.",
   price: 7,
@@ -308,7 +308,7 @@ const SHOP_PRODUCT_LIST = [
  {
   id: "curry leaves",
   name: "Fresh Curry leaves",
-  image: "../assets/images/curry leaves.jpg",
+  image: "../assets/images/curryleaves.jpg",
   farm: "local Farms",
   desc: "Fresh curry leaves.",
   price: 15,
@@ -320,7 +320,7 @@ const SHOP_PRODUCT_LIST = [
  {
   id: "red onion",
   name: "Red Onion",
-  image: "../assets/images/red onion.jpg",
+  image: "../assets/images/redonion.jpg",
   farm: "local Farms",
   desc: "farm Red Onion.",
   price: 16,
@@ -332,7 +332,7 @@ const SHOP_PRODUCT_LIST = [
  {
   id: "Frozen Peas",
   name: "Frozen Peas",
-  image: "../assets/images/frozen pea.jpg",
+  image: "../assets/images/frozenpea.jpg",
   farm: "local Farms",
   desc: "Frozen Peas.",
   price: 80,
@@ -356,7 +356,7 @@ const SHOP_PRODUCT_LIST = [
  {
   id: "Drumstick",
   name: "Drumstick",
-  image: "../assets/images/drum stick.jpg",
+  image: "../assets/images/drumstick.jpg",
   farm: "local Farms",
   desc: "Drum Stick.",
   price: 40,
@@ -368,7 +368,7 @@ const SHOP_PRODUCT_LIST = [
  {
   id: "Lady Finger",
   name: "Lady Finger",
-  image: "../assets/images/lady finger.jpg",
+  image: "../assets/images/ladyfinger.jpg",
   farm: "local Farms",
   desc: "Lady Finger.",
   price: 50,
@@ -380,7 +380,7 @@ const SHOP_PRODUCT_LIST = [
  {
   id: "bottle gaurd",
   name: "Bottle gaurd",
-  image: "../assets/images/bottle gurad.jpg",
+  image: "../assets/images/bottlegurad.jpg",
   farm: "local Farms",
   desc: "Bottle gaurd.",
   price: 8,

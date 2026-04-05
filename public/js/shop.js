@@ -221,7 +221,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "tomato",
     name: "Desi Tomatoes",
-    image: "../assets/images/tomato.jpg",
+    image: "assets/images/tomato.jpg",
     farm: "local Farms",
     desc: "Fresh juicy tomatoes.",
     price: 15,
@@ -233,7 +233,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "spinach",
     name: "Fresh Spinach",
-    image: "../assets/images/spinach.jpg",
+    image: "assets/images/spinach.jpg",
     farm: "local Farms",
     desc: "Fresh green spinach.",
     price: 8,
@@ -245,7 +245,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "carrot",
     name: "Organic Carrots",
-    image: "../assets/images/carrot.jpg",
+    image: "assets/images/carrot.jpg",
     farm: "local Farms",
     desc: "Crunchy organic carrots.",
     price: 30,
@@ -257,7 +257,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "brinjal",
     name: "Brinjal",
-    image: "../assets/images/brinjal.jpg",
+    image: "assets/images/brinjal.jpg",
     farm: "local Farms",
     desc: "Fresh brinjals.",
     price: 20,
@@ -269,10 +269,10 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "potato",
     name: "Potato",
-    image: "../assets/images/potato.jpg",
+    image: "assets/images/potato.jpg",
     farm: "local Farms",
     desc: "Farm potatoes.",
-    price: 9,
+    price: 15,
     unit: "kg",
     rating: 4.5,
     reviews: 120,
@@ -281,7 +281,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "capsicum",
     name: "Fresh Capsicum",
-    image: "../assets/images/capsicum.jpg",
+    image: "assets/images/capsicum.jpg",
     farm: "local Farms",
     desc: "Fresh capsicums.",
     price: 65,
@@ -293,7 +293,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "cauliflower",
     name: "Fresh Cauliflower",
-    image: "../assets/images/cauliflower.jpg",
+    image: "assets/images/cauliflower.jpg",
     farm: "local Farms",
     desc: "Fresh cauliflower.",
     price: 18,
@@ -305,7 +305,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "baby potato",
     name: "Baby potato",
-    image: "../assets/images/babypotato.jpg",
+    image: "assets/images/babypotato.jpg",
     farm: "local Farms",
     desc: "Fresh Baby Potatoes.",
     price: 7,
@@ -317,7 +317,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "curry leaves",
     name: "Fresh Curry leaves",
-    image: "../assets/images/curryleaves.jpg",
+    image: "assets/images/curryleaves.jpg",
     farm: "local Farms",
     desc: "Fresh curry leaves.",
     price: 15,
@@ -329,7 +329,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "red onion",
     name: "Red Onion",
-    image: "../assets/images/redonion.jpg",
+    image: "assets/images/redonion.jpg",
     farm: "local Farms",
     desc: "farm Red Onion.",
     price: 16,
@@ -341,7 +341,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "Frozen Peas",
     name: "Frozen Peas",
-    image: "../assets/images/frozenpea.jpg",
+    image: "assets/images/frozenpea.jpg",
     farm: "local Farms",
     desc: "Frozen Peas.",
     price: 80,
@@ -353,7 +353,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "Karela",
     name: "Karela",
-    image: "../assets/images/karela.jpg",
+    image: "assets/images/karela.jpg",
     farm: "local Farms",
     desc: "Karela.",
     price: 50,
@@ -365,7 +365,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "Drumstick",
     name: "Drumstick",
-    image: "../assets/images/drumstick.jpg",
+    image: "assets/images/drumstick.jpg",
     farm: "local Farms",
     desc: "Drum Stick.",
     price: 40,
@@ -377,7 +377,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "Lady Finger",
     name: "Lady Finger",
-    image: "../assets/images/ladyfinger.jpg",
+    image: "assets/images/ladyfinger.jpg",
     farm: "local Farms",
     desc: "Lady Finger.",
     price: 50,
@@ -389,7 +389,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "bottle gaurd",
     name: "Bottle gaurd",
-    image: "../assets/images/bottlegurad.jpg",
+    image: "assets/images/bottlegurad.jpg",
     farm: "local Farms",
     desc: "Bottle gaurd.",
     price: 8,
@@ -401,7 +401,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "methi",
     name: "Fresh Methi",
-    image: "../assets/images/methi.jpg",
+    image: "assets/images/methi.jpg",
     farm: "local Farms",
     desc: "Fresh Methi.",
     price: 10,
@@ -413,7 +413,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "Corn",
     name: "Corn",
-    image: "../assets/images/corn.jpg",
+    image: "assets/images/corn.jpg",
     farm: "local Farms",
     desc: "Corn.",
     price: 20,
@@ -425,7 +425,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "reddish",
     name: "Reddish",
-    image: "../assets/images/radish.jpg",
+    image: "assets/images/radish.jpg",
     farm: "local Farms",
     desc: "Reddish.",
     price: 8,
@@ -437,7 +437,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "Broccoli",
     name: "Broccoli",
-    image: "../assets/images/broccoli.jpg",
+    image: "assets/images/broccoli.jpg",
     farm: "local Farms",
     desc: "Broccoli.",
     price: 60,
@@ -449,7 +449,7 @@ const SHOP_PRODUCT_LIST = [
   {
     id: "Mushroom",
     name: "Fresh Mushroom",
-    image: "../assets/images/mushroom.jpg",
+    image: "assets/images/mushroom.jpg",
     farm: "local Farms",
     desc: "Fresh Mushroom.",
     price: 50,
@@ -465,7 +465,13 @@ const SHOP_PRODUCT_LIST = [
   try {
     const stored = localStorage.getItem(LS_PRODUCTS);
     const parsed = stored ? JSON.parse(stored) : null;
-    if (!parsed || !parsed.length) {
+    /* 
+       Force update if:
+       1. Nothing is stored.
+       2. The number of products is different.
+       3. We want to ensure price updates in code are reflected in the cart.
+    */
+    if (!parsed || parsed.length !== SHOP_PRODUCT_LIST.length) {
       localStorage.setItem(LS_PRODUCTS, JSON.stringify(SHOP_PRODUCT_LIST));
     }
   } catch(e) {

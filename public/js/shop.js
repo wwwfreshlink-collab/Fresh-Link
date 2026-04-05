@@ -215,7 +215,7 @@ const SHOP_PRODUCT_LIST = [
  image: "../assets/images/tomato.jpg",
  farm: "local Farms",
  desc: "Fresh juicy tomatoes.",
- price: 40,
+ price: 9,
  unit: "kg",
  rating: 4.8,
  reviews: 214,
@@ -228,8 +228,8 @@ const SHOP_PRODUCT_LIST = [
  image: "../assets/images/spinach.jpg",
  farm: "local Farms",
  desc: "Fresh green spinach.",
- price: 25,
- unit: "kg",
+ price: 7,
+ unit: "bunch",
  rating: 4.7,
  reviews: 180,
  category: "vegetable",
@@ -254,7 +254,7 @@ const SHOP_PRODUCT_LIST = [
  image: "../assets/images/brinjal.jpg",
  farm: "local Farms",
  desc: "Fresh brinjals.",
- price: 35,
+ price: 20,
  unit: "kg",
  rating: 4.5,
  reviews: 98,
@@ -273,18 +273,55 @@ const SHOP_PRODUCT_LIST = [
  category: "vegetable"
 },
 {
-  id: "fruit",
-  name: "Fresh Apples",
-  image: "../assets/images/redapple.jpg",
+  id: "capsicum",
+  name: "Fresh Capsicum",
+  image: "../assets/images/capsicum.jpg",
   farm: "local Farms",
-  desc: "Fresh red apples.",
-  price: 95,
+  desc: "Fresh capsicums.",
+  price: 40,
   unit: "kg",
   rating: 4.7,
   reviews: 80,
-  category: "fruit",
-  badge: "organic"
+  category: "vegetable"
+ },
+ {
+  id: "cauliflower",
+  name: "Fresh Cauliflower",
+  image: "../assets/images/cauliflower.jpg",
+  farm: "local Farms",
+  desc: "Fresh cauliflower.",
+  price: 12,
+  unit: "kg",
+  rating: 4.7,
+  reviews: 80,
+  category: "vegetable"
+ },
+ {
+  id: "baby potato",
+  name: "Fresh Baby potato",
+  image: "../assets/images/baby potato.jpg",
+  farm: "local Farms",
+  desc: "Fresh Baby Potatoes.",
+  price: 5,
+  unit: "kg",
+  rating: 4.7,
+  reviews: 80,
+  category: "vegetable"
+ },
+ {
+  id: "curry leaves",
+  name: "Fresh Curry leaves",
+  image: "../assets/images/curry leaves.jpg",
+  farm: "local Farms",
+  desc: "Fresh curry leaves.",
+  price: 15,
+  unit: "bunch",
+  rating: 4.7,
+  reviews: 80,
+  category: "vegetable"
  }
+ 
+
 ];
 
 /* Seed localStorage so cart.js getProducts() returns the correct list */

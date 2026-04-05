@@ -434,28 +434,28 @@ const SHOP_PRODUCT_LIST = [
     category: "vegetable"
   },
   {
-    id: "red apple",
-    name: "Red Apple",
-    image: "assets/images/redapple.jpg",
+    id: "Broccoli",
+    name: "Broccoli",
+    image: "assets/images/broccoli.jpg",
     farm: "local Farms",
-    desc: "Kashmiri Red Apples.",
-    price: 160,
-    unit: "kg",
-    rating: 4.8,
-    reviews: 276,
-    category: "fruit"
-  },
-  {
-    id: "nashik grapes",
-    name: "Nashik Grapes",
-    image: "assets/images/grapes.jpg",
-    farm: "local Farms",
-    desc: "Sweet seedless grapes.",
-    price: 80,
+    desc: "Broccoli.",
+    price: 60,
     unit: "kg",
     rating: 4.7,
-    reviews: 192,
-    category: "fruit"
+    reviews: 80,
+    category: "vegetable"
+  },
+  {
+    id: "Mushroom",
+    name: "Fresh Mushroom",
+    image: "assets/images/mushroom.jpg",
+    farm: "local Farms",
+    desc: "Fresh Mushroom.",
+    price: 50,
+    unit: "250g box",
+    rating: 4.7,
+    reviews: 80,
+    category: "vegetable"
   }
 ];
 

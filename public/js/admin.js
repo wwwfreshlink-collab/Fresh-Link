@@ -88,7 +88,7 @@ function showAdminView(view) {
 /* ── Dashboard ── */
 function renderDash() {
   const total = adminProducts.length;
-  const vegs  = adminProducts.filter(p => p.category === 'vegetables').length;
+  const vegs  = adminProducts.filter(p => p.category === 'vegetable').length;
   const fruits= adminProducts.filter(p => p.category === 'fruits').length;
   const organic=adminProducts.filter(p => p.badge === 'organic').length;
 
@@ -181,7 +181,7 @@ function fillProductForm(p) {
 
 function clearProductForm() {
   ['pId','pName','pEmoji','pCategory','pPrice','pDiscountPrice','pUnit','pFarm','pBadge','pRating','pReviews','pDesc','pImage'].forEach(id => setVal(id,''));
-  setVal('pCategory','vegetables');
+  setVal('pCategory','vegetable');
   setVal('pUnit','kg');
   updateImagePreview('');
 }
@@ -204,7 +204,7 @@ async function saveProduct() {
     id:            editingId || ('p_' + Date.now()),
     name,
     emoji:         getVal('pEmoji') || '🥬',
-    category:      getVal('pCategory') || 'vegetables',
+    category:      getVal('pCategory') || 'vegetable',
     price,
     discountPrice: (!isNaN(discPrice) && discPrice > 0 && discPrice < price) ? discPrice : undefined,
     unit:          getVal('pUnit') || 'kg',

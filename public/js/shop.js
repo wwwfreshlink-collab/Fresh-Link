@@ -62,7 +62,23 @@ function applyFilterSort() {
     `${filteredProducts.length} product${filteredProducts.length !== 1 ? 's' : ''}`;
 
   const grid = document.getElementById('prodGrid') || document.getElementById('featuredGrid');
-  if (grid) { grid.innerHTML = ''; displayedCount = 0; loadMoreProducts(); }
+  if (grid) { 
+    grid.innerHTML = ''; 
+    displayedCount = 0; 
+    loadMoreProducts();
+    
+    // Extra safety: if screen is huge and 12 isn't enough to scroll, 
+    // load one more batch automatically.
+    setTimeout(() => {
+       const sentinel = document.getElementById('sentinel');
+       if (sentinel && sentinel.style.display !== 'none') {
+         const rect = sentinel.getBoundingClientRect();
+         if (rect.top <= (window.innerHeight || document.documentElement.clientHeight)) {
+           loadMoreProducts();
+         }
+       }
+    }, 500);
+  }
 }
 
 /* ================= LOAD PRODUCTS ================= */

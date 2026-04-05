@@ -67,8 +67,6 @@ function applyFilterSort() {
     displayedCount = 0; 
     loadMoreProducts();
     
-    // Extra safety: if screen is huge and 12 isn't enough to scroll, 
-    // load one more batch automatically.
     setTimeout(() => {
        const sentinel = document.getElementById('sentinel');
        if (sentinel && sentinel.style.display !== 'none') {
@@ -107,7 +105,6 @@ function loadMoreProducts() {
 
   isLoading = false;
 
-  // If we still have more to show and sentinel is visible, load more immediately
   const sentinel = document.getElementById('sentinel');
   if (sentinel && displayedCount < filteredProducts.length) {
     sentinel.style.display = 'block';
@@ -217,246 +214,26 @@ function setupInfiniteScroll() {
 /* ================= PRODUCTS DATA ================= */
 
 const SHOP_PRODUCT_LIST = [
-  {
-    id: "tomato",
-    name: "Desi Tomatoes",
-    image: "assets/images/tomato.jpg",
-    farm: "local Farms",
-    desc: "Fresh juicy tomatoes.",
-    price: 15,
-    unit: "kg",
-    rating: 4.8,
-    reviews: 214,
-    category: "vegetable",
-  },
-  {
-    id: "spinach",
-    name: "Fresh Spinach",
-    image: "assets/images/spinach.jpg",
-    farm: "local Farms",
-    desc: "Fresh green spinach.",
-    price: 8,
-    unit: "bunch",
-    rating: 4.7,
-    reviews: 180,
-    category: "vegetable",
-  },
-  {
-    id: "carrot",
-    name: "Organic Carrots",
-    image: "assets/images/carrot.jpg",
-    farm: "local Farms",
-    desc: "Crunchy organic carrots.",
-    price: 30,
-    unit: "kg",
-    rating: 4.6,
-    reviews: 162,
-    category: "vegetable",
-  },
-  {
-    id: "brinjal",
-    name: "Brinjal",
-    image: "assets/images/brinjal.jpg",
-    farm: "local Farms",
-    desc: "Fresh brinjals.",
-    price: 20,
-    unit: "kg",
-    rating: 4.5,
-    reviews: 98,
-    category: "vegetable"
-  },
-  {
-    id: "potato",
-    name: "Potato",
-    image: "assets/images/potato.jpg",
-    farm: "local Farms",
-    desc: "Farm potatoes.",
-    price: 15,
-    unit: "kg",
-    rating: 4.5,
-    reviews: 120,
-    category: "vegetable"
-  },
-  {
-    id: "capsicum",
-    name: "Fresh Capsicum",
-    image: "assets/images/capsicum.jpg",
-    farm: "local Farms",
-    desc: "Fresh capsicums.",
-    price: 65,
-    unit: "kg",
-    rating: 4.7,
-    reviews: 80,
-    category: "vegetable"
-  },
-  {
-    id: "cauliflower",
-    name: "Fresh Cauliflower",
-    image: "assets/images/cauliflower.jpg",
-    farm: "local Farms",
-    desc: "Fresh cauliflower.",
-    price: 18,
-    unit: "kg",
-    rating: 4.7,
-    reviews: 80,
-    category: "vegetable"
-  },
-  {
-    id: "baby potato",
-    name: "Baby potato",
-    image: "assets/images/babypotato.jpg",
-    farm: "local Farms",
-    desc: "Fresh Baby Potatoes.",
-    price: 7,
-    unit: "kg",
-    rating: 4.7,
-    reviews: 80,
-    category: "vegetable"
-  },
-  {
-    id: "curry leaves",
-    name: "Fresh Curry leaves",
-    image: "assets/images/curryleaves.jpg",
-    farm: "local Farms",
-    desc: "Fresh curry leaves.",
-    price: 15,
-    unit: "bunch",
-    rating: 4.7,
-    reviews: 80,
-    category: "vegetable"
-  },
-  {
-    id: "red onion",
-    name: "Red Onion",
-    image: "assets/images/redonion.jpg",
-    farm: "local Farms",
-    desc: "farm Red Onion.",
-    price: 16,
-    unit: "kg",
-    rating: 4.7,
-    reviews: 80,
-    category: "vegetable"
-  },
-  {
-    id: "Frozen Peas",
-    name: "Frozen Peas",
-    image: "assets/images/frozenpea.jpg",
-    farm: "local Farms",
-    desc: "Frozen Peas.",
-    price: 80,
-    unit: "kg",
-    rating: 4.7,
-    reviews: 80,
-    category: "vegetable"
-  },
-  {
-    id: "Karela",
-    name: "Karela",
-    image: "assets/images/karela.jpg",
-    farm: "local Farms",
-    desc: "Karela.",
-    price: 50,
-    unit: "kg",
-    rating: 4.7,
-    reviews: 80,
-    category: "vegetable"
-  },
-  {
-    id: "Drumstick",
-    name: "Drumstick",
-    image: "assets/images/drumstick.jpg",
-    farm: "local Farms",
-    desc: "Drum Stick.",
-    price: 40,
-    unit: "kg",
-    rating: 4.7,
-    reviews: 80,
-    category: "vegetable"
-  },
-  {
-    id: "Lady Finger",
-    name: "Lady Finger",
-    image: "assets/images/ladyfinger.jpg",
-    farm: "local Farms",
-    desc: "Lady Finger.",
-    price: 50,
-    unit: "kg",
-    rating: 4.7,
-    reviews: 80,
-    category: "vegetable"
-  },
-  {
-    id: "bottle gaurd",
-    name: "Bottle gaurd",
-    image: "assets/images/bottlegurad.jpg",
-    farm: "local Farms",
-    desc: "Bottle gaurd.",
-    price: 8,
-    unit: "kg",
-    rating: 4.7,
-    reviews: 80,
-    category: "vegetable"
-  },
-  {
-    id: "methi",
-    name: "Fresh Methi",
-    image: "assets/images/methi.jpg",
-    farm: "local Farms",
-    desc: "Fresh Methi.",
-    price: 10,
-    unit: "bunch",
-    rating: 4.7,
-    reviews: 80,
-    category: "vegetable"
-  },
-  {
-    id: "Corn",
-    name: "Corn",
-    image: "assets/images/corn.jpg",
-    farm: "local Farms",
-    desc: "Corn.",
-    price: 20,
-    unit: "kg",
-    rating: 4.7,
-    reviews: 80,
-    category: "vegetable"
-  },
-  {
-    id: "reddish",
-    name: "Reddish",
-    image: "assets/images/radish.jpg",
-    farm: "local Farms",
-    desc: "Reddish.",
-    price: 8,
-    unit: "bunch",
-    rating: 4.7,
-    reviews: 80,
-    category: "vegetable"
-  },
-  {
-    id: "Broccoli",
-    name: "Broccoli",
-    image: "assets/images/broccoli.jpg",
-    farm: "local Farms",
-    desc: "Broccoli.",
-    price: 60,
-    unit: "kg",
-    rating: 4.7,
-    reviews: 80,
-    category: "vegetable"
-  },
-  {
-    id: "Mushroom",
-    name: "Fresh Mushroom",
-    image: "assets/images/mushroom.jpg",
-    farm: "local Farms",
-    desc: "Fresh Mushroom.",
-    price: 50,
-    unit: "250g box",
-    rating: 4.7,
-    reviews: 80,
-    category: "vegetable"
-  }
+  { id:'tomato',  name:'Desi Tomatoes', image:'assets/images/tomato.jpg', farm:'local Farms', desc:'Fresh juicy tomatoes.', price:15, unit:'kg', rating:4.8, reviews:214, category:'vegetable' },
+  { id:'spinach', name:'Fresh Spinach',  image:'assets/images/spinach.jpg', farm:'local Farms', desc:'Fresh green spinach.', price:8,  unit:'bunch', rating:4.7, reviews:180, category:'vegetable' },
+  { id:'carrot',  name:'Organic Carrots', image:'assets/images/carrot.jpg', farm:'local Farms', desc:'Crunchy organic carrots.', price:30, unit:'kg', rating:4.6, reviews:162, category:'vegetable' },
+  { id:'brinjal', name:'Brinjal', image:'assets/images/brinjal.jpg', farm:'local Farms', desc:'Fresh brinjals.', price:20, unit:'kg', rating:4.5, reviews:98, category:'vegetable' },
+  { id:'potato',  name:'Potato', image:'assets/images/potato.jpg', farm:'local Farms', desc:'Farm potatoes.', price:15, unit:'kg', rating:4.5, reviews:120, category:'vegetable' },
+  { id:'capsicum', name:'Fresh Capsicum', image:'assets/images/capsicum.jpg', farm:'local Farms', desc:'Fresh capsicums.', price:65, unit:'kg', rating:4.7, reviews:80, category:'vegetable' },
+  { id:'cauliflower', name:'Fresh Cauliflower', image:'assets/images/cauliflower.jpg', farm:'local Farms', desc:'Fresh cauliflower.', price:18, unit:'kg', rating:4.7, reviews:80, category:'vegetable' },
+  { id:'baby-potato', name:'Baby potato', image:'assets/images/babypotato.jpg', farm:'local Farms', desc:'Fresh Baby Potatoes.', price:7, unit:'kg', rating:4.7, reviews:80, category:'vegetable' },
+  { id:'curry-leaves', name:'Fresh Curry leaves', image:'assets/images/curryleaves.jpg', farm:'local Farms', desc:'Fresh curry leaves.', price:15, unit:'bunch', rating:4.7, reviews:80, category:'vegetable' },
+  { id:'red-onion', name:'Red Onion', image:'assets/images/redonion.jpg', farm:'local Farms', desc:'farm Red Onion.', price:16, unit:'kg', rating:4.7, reviews:289, category:'vegetable' },
+  { id:'frozen-peas', name:'Frozen Peas', image:'assets/images/frozenpea.jpg', farm:'local Farms', desc:'Frozen Peas.', price:80, unit:'kg', rating:4.6, reviews:134, category:'vegetable' },
+  { id:'karela', name:'Karela', image:'assets/images/karela.jpg', farm:'local Farms', desc:'Karela.', price:50, unit:'kg', rating:4.2, reviews:76, category:'vegetable' },
+  { id:'drumstick', name:'Drumstick', image:'assets/images/drumstick.jpg', farm:'local Farms', desc:'Drum Stick.', price:40, unit:'kg', rating:4.5, reviews:91, category:'vegetable' },
+  { id:'lady-finger', name:'Lady Finger', image:'assets/images/ladyfinger.jpg', farm:'local Farms', desc:'Lady Finger.', price:50, unit:'kg', rating:4.7, reviews:183, category:'vegetable' },
+  { id:'bottle-gaurd', name:'Bottle gaurd', image:'assets/images/bottlegurad.jpg', farm:'local Farms', desc:'Bottle gaurd.', price:8, unit:'kg', rating:4.4, reviews:102, category:'vegetable' },
+  { id:'methi', name:'Fresh Methi', image:'assets/images/methi.jpg', farm:'local Farms', desc:'Fresh Methi.', price:10, unit:'bunch', rating:4.6, reviews:147, category:'vegetable' },
+  { id:'corn', name:'Corn', image:'assets/images/corn.jpg', farm:'local Farms', desc:'Corn.', price:20, unit:'kg', rating:4.8, reviews:219, category:'vegetable' },
+  { id:'radish', name:'Radish', image:'assets/images/radish.jpg', farm:'local Farms', desc:'Radish.', price:8, unit:'bunch', rating:4.4, reviews:62, category:'vegetable' },
+  { id:'broccoli', name:'Broccoli', image:'assets/images/broccoli.jpg', farm:'local Farms', desc:'Broccoli.', price:60, unit:'kg', rating:4.7, reviews:80, category:'vegetable' },
+  { id:'mushroom', name:'Fresh Mushroom', image:'assets/images/mushroom.jpg', farm:'local Farms', desc:'Fresh Mushroom.', price:50, unit:'250g box', rating:4.7, reviews:80, category:'vegetable' }
 ];
 
 /* Seed localStorage so cart.js can find products by ID */
@@ -464,12 +241,6 @@ const SHOP_PRODUCT_LIST = [
   try {
     const stored = localStorage.getItem(LS_PRODUCTS);
     const parsed = stored ? JSON.parse(stored) : null;
-    /* 
-       Force update if:
-       1. Nothing is stored.
-       2. The number of products is different.
-       3. We want to ensure price updates in code are reflected in the cart.
-    */
     if (!parsed || parsed.length !== SHOP_PRODUCT_LIST.length) {
       localStorage.setItem(LS_PRODUCTS, JSON.stringify(SHOP_PRODUCT_LIST));
     }

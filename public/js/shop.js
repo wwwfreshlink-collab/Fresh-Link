@@ -8,7 +8,7 @@ let filteredProducts = [];
 let currentFilter    = 'all';
 let currentSort      = '';
 let displayedCount   = 0;
-const PAGE_SIZE      = 12;   // batch size – kept as-is
+const PAGE_SIZE      = 24;   // batch size – updated to show all 20 products at once
 let isLoading        = false;
 
 document.addEventListener('DOMContentLoaded', () => {

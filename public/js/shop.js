@@ -407,7 +407,7 @@ const SHOP_PRODUCT_LIST = [
   image: "../assets/images/corn.jpg",
   farm: "local Farms",
   desc: "Corn.",
-  price: "updated soon",
+  price: 20,
   unit: "kg",
   rating: 4.7,
   reviews: 80,

@@ -8,7 +8,7 @@ let filteredProducts = [];
 let currentFilter    = 'all';
 let currentSort      = '';
 let displayedCount   = 0;
-const PAGE_SIZE      = 24;   // batch size – updated to show all 20 products at once
+const PAGE_SIZE      = 30;   // batch size – updated to 30 products as requested
 let isLoading        = false;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -33,7 +33,12 @@ function doSort(val) {
 
   let filtered = currentFilter === 'all'
     ? [...SHOP_PRODUCT_LIST]
-    : SHOP_PRODUCT_LIST.filter(p => p.category === currentFilter);
+    : SHOP_PRODUCT_LIST.filter(p => {
+        if (currentFilter === 'vegetable') {
+          return p.category === 'vegetable' || p.category === 'vegetables';
+        }
+        return p.category === currentFilter;
+      });
 
   if (val === 'pa')     filtered.sort((a, b) => a.price  - b.price);
   else if (val === 'pd') filtered.sort((a, b) => b.price  - a.price);
@@ -52,7 +57,12 @@ function doSort(val) {
 function applyFilterSort() {
   filteredProducts = currentFilter === 'all'
     ? [...allProducts]
-    : allProducts.filter(p => p.category === currentFilter);
+    : allProducts.filter(p => {
+        if (currentFilter === 'vegetable') {
+          return p.category === 'vegetable' || p.category === 'vegetables';
+        }
+        return p.category === currentFilter;
+      });
 
   if (currentSort === 'pa') filteredProducts.sort((a, b) => a.price - b.price);
   else if (currentSort === 'pd') filteredProducts.sort((a, b) => b.price - a.price);

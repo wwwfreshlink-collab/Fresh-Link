@@ -220,7 +220,6 @@ const SHOP_PRODUCT_LIST = [
  rating: 4.8,
  reviews: 214,
  category: "vegetable",
- badge: "organic"
 },
 {
  id: "spinach",
@@ -233,7 +232,6 @@ const SHOP_PRODUCT_LIST = [
  rating: 4.7,
  reviews: 180,
  category: "vegetable",
- badge: "organic"
 },
 {
  id: "carrot",
@@ -246,7 +244,6 @@ const SHOP_PRODUCT_LIST = [
  rating: 4.6,
  reviews: 162,
  category: "vegetable",
- badge: "organic"
 },
 {
  id: "brinjal",
@@ -320,8 +317,138 @@ const SHOP_PRODUCT_LIST = [
   reviews: 80,
   category: "vegetable"
  },
- 
-
+ {
+  id: "red onion",
+  name: "Red Onion",
+  image: "../assets/images/red onion.jpg",
+  farm: "local Farms",
+  desc: "Red Onion.",
+  price: 15,
+  unit: "kg",
+  rating: 4.7,
+  reviews: 80,
+  category: "vegetable"
+ },
+ {
+  id: "Frozen Peas",
+  name: "Frozen Peas",
+  image: "../assets/images/frozen pea.jpg",
+  farm: "local Farms",
+  desc: "Frozen Peas.",
+  price: 80,
+  unit: "kg",
+  rating: 4.7,
+  reviews: 80,
+  category: "vegetable"
+ },
+ {
+  id: "Karela",
+  name: "Karela",
+  image: "../assets/images/karela.jpg",
+  farm: "local Farms",
+  desc: "Karela.",
+  price: 50,
+  unit: "kg",
+  rating: 4.7,
+  reviews: 80,
+  category: "vegetable"
+ },
+ {
+  id: "Drumstick",
+  name: "Drumstick",
+  image: "../assets/images/drum stick.jpg",
+  farm: "local Farms",
+  desc: "Drum Stick.",
+  price: 30,
+  unit: "kg",
+  rating: 4.7,
+  reviews: 80,
+  category: "vegetable"
+ },
+ {
+  id: "Lady Finger",
+  name: "Lady Finger",
+  image: "../assets/images/lady finger.jpg",
+  farm: "local Farms",
+  desc: "Lady Finger.",
+  price: 50,
+  unit: "kg",
+  rating: 4.7,
+  reviews: 80,
+  category: "vegetable"
+ },
+ {
+  id: "bottle gaurd",
+  name: "Bottle gaurd",
+  image: "../assets/images/bottle gurad.jpg",
+  farm: "local Farms",
+  desc: "Bottle gaurd.",
+  price: 8,
+  unit: "kg",
+  rating: 4.7,
+  reviews: 80,
+  category: "vegetable"
+ },
+ {
+  id: "methi",
+  name: " Fresh Methi",
+  image: "../assets/images/methi.jpg",
+  farm: "local Farms",
+  desc: "Fresh Methi.",
+  price: 10,
+  unit: "bunch",
+  rating: 4.7,
+  reviews: 80,
+  category: "vegetable"
+ },
+ {
+  id: "Corn",
+  name: "Corn",
+  image: "../assets/images/corn.jpg",
+  farm: "local Farms",
+  desc: "Corn.",
+  price: "updated soon",
+  unit: "kg",
+  rating: 4.7,
+  reviews: 80,
+  category: "vegetable"
+ },
+ {
+  id: "reddish",
+  name: "Reddish",
+  image: "../assets/images/radish.jpg",
+  farm: "local Farms",
+  desc: "Reddish.",
+  price: 8,
+  unit: "bunch",
+  rating: 4.7,
+  reviews: 80,
+  category: "vegetable"
+ },
+ {
+  id: "Broccoli",
+  name: "Broccoli",
+  image: "../assets/images/broccoli.jpg",
+  farm: "local Farms",
+  desc: "Broccoli.",
+  price: 60,
+  unit: "kg",
+  rating: 4.7,
+  reviews: 80,
+  category: "vegetable"
+ },
+ {
+  id: "Mushroom",
+  name: "Fresh Mushroom",
+  image: "../assets/images/mushroom.jpg",
+  farm: "local Farms",
+  desc: "Fresh Mushroom.",
+  price: 42,
+  unit: "box",
+  rating: 4.7,
+  reviews: 80,
+  category: "vegetable"
+ },
 
 ];
 

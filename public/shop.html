@@ -126,33 +126,43 @@
       .sticky-cart-btn:hover {
         background: var(--gold);
       }
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
     </style>
   </head>
   <body style="background: var(--cream)">
     <div id="prog" aria-hidden="true"></div>
     <div id="toast" role="status" aria-live="polite"></div>
 
+    <!-- ===== HEADER ===== -->
     <header>
       <nav id="nav" role="navigation" aria-label="Main navigation">
         <div class="nav-logo">
-          <a href="index.html">
-            <div class="nav-logo">
-              <a href="index.html" style="display:flex; align-items:center; gap:8px;">
-                <img 
-                  src="../assets/images/logo.png" 
-                  alt="FreshLink Logo"
-                  style="height: 48px; width: auto;"
-                />
-              </a>
-            </div>  </a>
+          <a
+            href="index.html"
+            style="display: flex; align-items: center; gap: 8px"
+          >
+            <img
+              src="../assets/images/logo.png"
+              alt="FreshLink Logo"
+              style="height: 48px; width: auto"
+            />
           </a>
         </div>
+
         <div class="nav-mid">
           <a href="index.html">Home</a>
           <a href="shop.html" class="active">Shop</a>
           <a href="how-it-works.html">How It Works</a>
           <a href="about.html">About</a>
         </div>
+
         <div class="nav-right">
           <a href="cart.html" style="text-decoration: none">
             <button class="cart-pill">
@@ -170,20 +180,24 @@
       </nav>
     </header>
 
+    <!-- ===== MOBILE NAV ===== -->
     <nav class="mobile-nav" id="mobileNav">
       <a href="index.html">🏠 Home</a>
       <a href="shop.html" class="active">🛍️ Shop</a>
       <a href="how-it-works.html">⚡ How It Works</a>
       <a href="about.html">🌿 About</a>
-        ><i data-lucide="shopping-bag" style="width: 18px"></i> View Cart
+      <a href="cart.html">
+        <i data-lucide="shopping-bag" style="width: 18px"></i> View Cart
         <span
           class="cart-badge"
           style="background: var(--amber); color: var(--forest)"
+          id="mobileCartBadge"
           >0</span
-        ></a
-      >
+        >
+      </a>
     </nav>
 
+    <!-- ===== MAIN ===== -->
     <main style="padding-top: 86px; padding-bottom: 80px">
       <section style="padding: 24px 20px 0" aria-label="Shop fresh produce">
         <!-- Shop header -->
@@ -196,6 +210,8 @@
             <p class="sec-sub" style="font-size: 14px">
               Picked this morning. At your door within 24 hours.
             </p>
+
+            <!-- Search -->
             <div class="search-bar" style="max-width: 360px">
               <i
                 data-lucide="search"
@@ -214,6 +230,13 @@
                 oninput="doSearch(this.value)"
               />
             </div>
+
+            <!-- Filter pills -->
+            <!--
+              FIX (Bug 2): Changed setFilter('vegetables', ...) → setFilter('vegetable', ...)
+              to match the category string used in every product object in SHOP_PRODUCT_LIST.
+              Previously the filter returned 0 results because no product has category:"vegetables".
+            -->
             <div
               class="filter-row"
               id="pills"
@@ -224,14 +247,16 @@
               <button class="pill on" onclick="setFilter('all', this)">
                 All
               </button>
-              <button class="pill" onclick="setFilter('vegetables', this)">
+              <button class="pill" onclick="setFilter('vegetable', this)">
                 <i data-lucide="carrot" style="width: 13px"></i> Vegetables
               </button>
-              <button class="pill" onclick="setFilter('fruits', this)">
+              <button class="pill" onclick="setFilter('fruit', this)">
                 🍎 Fruits
               </button>
             </div>
           </div>
+
+          <!-- Sort -->
           <div style="text-align: right">
             <div
               style="font-size: 13px; color: var(--mist); margin-bottom: 8px"
@@ -263,7 +288,7 @@
           </div>
         </div>
 
-        <!-- Free delivery progress -->
+        <!-- Free delivery progress bar -->
         <div class="free-del-bar" id="freeDelBar" style="display: none">
           <i data-lucide="truck" style="width: 14px; flex-shrink: 0"></i>
           <span id="freeDelText">Add ₹299 more for free delivery!</span>
@@ -280,6 +305,12 @@
         <div class="prod-grid" id="prodGrid" aria-label="Product listing"></div>
 
         <!-- Infinite scroll sentinel -->
+        <!--
+          FIX (Bug 1): The sentinel is observed by IntersectionObserver in shop.js.
+          Additionally, shop.js now checks getBoundingClientRect() after each batch render
+          and immediately loads the next batch if the sentinel is already on-screen —
+          preventing the observer from silently missing loads on large viewports.
+        -->
         <div
           id="sentinel"
           style="height: 40px; display: none"
@@ -308,20 +339,10 @@
             Loading more…
           </p>
         </div>
-        <style>
-          @keyframes spin {
-            from {
-              transform: rotate(0);
-            }
-            to {
-              transform: rotate(360deg);
-            }
-          }
-        </style>
       </section>
     </main>
 
-    <!-- Sticky cart bar -->
+    <!-- ===== STICKY CART BAR ===== -->
     <div class="sticky-cart-bar" id="stickyCart" aria-label="Cart summary">
       <div class="sticky-cart-info">
         <span class="sticky-cart-items" id="stickyCartItems">0 items</span>
@@ -330,6 +351,7 @@
       <a href="cart.html" class="sticky-cart-btn">View Cart →</a>
     </div>
 
+    <!-- ===== FOOTER ===== -->
     <footer
       style="
         background: var(--ink);
@@ -346,37 +368,64 @@
         <p style="font-size: 13px; color: rgba(255, 255, 255, 0.35)">
           © 2025 FreshLink™ — Delivering freshness across Madhya Pradesh
         </p>
-        <p style="font-size: 12px; color: rgba(255, 255, 255, 0.6); margin-top: 4px;">
-          Email: <a href="mailto:www.freshlink@gmail.com" style="color: var(--amber);">www.freshlink@gmail.com</a> | 
-          Instagram: <a href="https://instagram.com/freshlink.co.in_" target="_blank" rel="noopener" style="color: var(--amber);"><i data-lucide="instagram" style="width: 14px; height: 14px"></i> @freshlink.co.in_</a> | 
-          Call: <a href="tel:+917987158480" style="color: var(--amber);">+91 79871 58480</a>, <a href="tel:+919424740903" style="color: var(--amber);">+91 94247 40903</a>
+        <p
+          style="
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 4px;
+          "
+        >
+          Email:
+          <a href="mailto:www.freshlink@gmail.com" style="color: var(--amber)">
+            www.freshlink@gmail.com
+          </a>
+          &nbsp;|&nbsp; Instagram:
+          <a
+            href="https://instagram.com/freshlink.co.in_"
+            target="_blank"
+            rel="noopener"
+            style="color: var(--amber)"
+          >
+            <i data-lucide="instagram" style="width: 14px; height: 14px"></i>
+            @freshlink.co.in_
+          </a>
+          &nbsp;|&nbsp; Call:
+          <a href="tel:+917987158480" style="color: var(--amber)"
+            >+91 79871 58480</a
+          >,
+          <a href="tel:+919424740903" style="color: var(--amber)"
+            >+91 94247 40903</a
+          >
         </p>
       </div>
       <div style="display: flex; gap: 12px">
-        <span class="fbadge"
-          ><i data-lucide="shield-check" style="width: 11px"></i> Verified
-          Farms</span
-        >
-        <span class="fbadge"
-          ><i data-lucide="truck" style="width: 11px"></i> 24hr Delivery</span
-        >
+        <span class="fbadge">
+          <i data-lucide="shield-check" style="width: 11px"></i> Verified Farms
+        </span>
+        <span class="fbadge">
+          <i data-lucide="truck" style="width: 11px"></i> 24hr Delivery
+        </span>
       </div>
     </footer>
 
+    <!-- Scroll-to-top button -->
     <button id="scrollTopBtn" aria-label="Scroll to top">
       <i data-lucide="arrow-up" style="width: 16px"></i>
     </button>
 
+    <!-- ===== INLINE PAGE SCRIPTS ===== -->
     <script>
+      /* ── Init ── */
       document.addEventListener("DOMContentLoaded", () => {
         if (typeof lucide !== "undefined") lucide.createIcons();
         updateStickyCart();
       });
 
-      // Search override
+      /* ── Search ── */
       function doSearch(val) {
         const v = val.trim().toLowerCase();
         const all = typeof getProducts === "function" ? getProducts() : [];
+
         if (!v) {
           filteredProducts = [...all];
         } else {
@@ -387,12 +436,14 @@
               (p.category && p.category.toLowerCase().includes(v)),
           );
         }
+
         const countEl = document.getElementById("prodCount");
         if (countEl)
           countEl.textContent =
             filteredProducts.length +
             " product" +
             (filteredProducts.length !== 1 ? "s" : "");
+
         const grid = document.getElementById("prodGrid");
         if (grid) {
           grid.innerHTML = "";
@@ -401,7 +452,7 @@
         }
       }
 
-      // Sticky cart updater
+      /* ── Sticky cart + delivery progress ── */
       function updateStickyCart() {
         const bar = document.getElementById("stickyCart");
         const items = document.getElementById("stickyCartItems");
@@ -418,7 +469,11 @@
         if (total)
           total.textContent = typeof fmt === "function" ? fmt(amt) : "₹" + amt;
 
-        // Delivery progress
+        /* Sync mobile nav badge */
+        const mobileBadge = document.getElementById("mobileCartBadge");
+        if (mobileBadge) mobileBadge.textContent = count;
+
+        /* Delivery progress */
         if (delBar && count > 0) {
           delBar.style.display = "flex";
           const needed = Math.max(0, 299 - amt);
@@ -436,9 +491,8 @@
         }
       }
 
-      // Hook into cart changes
-      const _orig = typeof saveCart !== "undefined" ? null : null;
-      setInterval(updateStickyCart, 500); // simple polling fallback
+      /* Poll for cart changes (simple fallback) */
+      setInterval(updateStickyCart, 500);
     </script>
   </body>
 </html>

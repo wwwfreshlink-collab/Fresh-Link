@@ -71,12 +71,14 @@ function loadMoreProducts() {
   const grid = document.getElementById('prodGrid') || document.getElementById('featuredGrid');
   if (!grid || isLoading) return;
 
-  /* On the featured grid (home page) cap at 8; on shop page use PAGE_SIZE */
   const isFeatured = !!document.getElementById('featuredGrid');
   const limit      = isFeatured ? 8 : PAGE_SIZE;
 
-  /* Nothing left to render */
-  if (displayedCount >= filteredProducts.length) return;
+  if (displayedCount >= filteredProducts.length) {
+    const sentinel = document.getElementById('sentinel');
+    if (sentinel) sentinel.style.display = 'none';
+    return;
+  }
 
   isLoading = true;
 
@@ -87,38 +89,19 @@ function loadMoreProducts() {
   if (typeof lucide !== 'undefined') lucide.createIcons();
   updateAllBadges();
 
-  /* ── SENTINEL VISIBILITY ── */
-  const sentinel = document.getElementById('sentinel');
-  if (sentinel) {
-    if (displayedCount >= filteredProducts.length) {
-      /* All products rendered – hide sentinel */
-      sentinel.style.display = 'none';
-    } else {
-      /* More products remain – show sentinel */
-      sentinel.style.display = 'block';
-
-      /*
-       * FIX (Bug 1):
-       * If the sentinel is already inside (or within 200 px of) the viewport
-       * right after this batch renders – e.g. on large screens where 12 cards
-       * don't push the sentinel below the fold – the IntersectionObserver will
-       * NOT re-fire (it already reported "intersecting = true" once and the
-       * element hasn't left the viewport yet).
-       *
-       * Solution: after releasing the lock, immediately schedule another load
-       * when the sentinel is already visible.
-       */
-      isLoading = false;
-      const rect = sentinel.getBoundingClientRect();
-      const alreadyVisible = rect.top <= (window.innerHeight || document.documentElement.clientHeight) + 200;
-      if (alreadyVisible) {
-        loadMoreProducts();   // load next batch right away
-      }
-      return;                 // exit early so we don't double-set isLoading
-    }
-  }
-
   isLoading = false;
+
+  // If we still have more to show and sentinel is visible, load more immediately
+  const sentinel = document.getElementById('sentinel');
+  if (sentinel && displayedCount < filteredProducts.length) {
+    sentinel.style.display = 'block';
+    const rect = sentinel.getBoundingClientRect();
+    if (rect.top <= (window.innerHeight || document.documentElement.clientHeight) + 100) {
+      loadMoreProducts();
+    }
+  } else if (sentinel) {
+    sentinel.style.display = 'none';
+  }
 }
 
 /* ================= PRODUCT CARD ================= */

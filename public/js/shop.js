@@ -7,6 +7,7 @@ let allProducts      = [];
 let filteredProducts = [];
 let currentFilter    = 'all';
 let currentSort      = '';
+let currentSearch    = '';
 let displayedCount   = 0;
 const PAGE_SIZE      = 30;   // batch size – updated to 30 products as requested
 let isLoading        = false;
@@ -28,44 +29,54 @@ function setFilter(cat, el) {
 }
 
 function doSort(val) {
-  currentSort  = val;
+  currentSort = val;
+  applyFilterSort();
+}
+
+function doSearch(val) {
+  currentSearch = (val || '').trim().toLowerCase();
   displayedCount = 0;
-
-  let filtered = currentFilter === 'all'
-    ? [...SHOP_PRODUCT_LIST]
-    : SHOP_PRODUCT_LIST.filter(p => {
-        if (currentFilter === 'vegetable') {
-          return p.category === 'vegetable' || p.category === 'vegetables';
-        }
-        return p.category === currentFilter;
-      });
-
-  if (val === 'pa')     filtered.sort((a, b) => a.price  - b.price);
-  else if (val === 'pd') filtered.sort((a, b) => b.price  - a.price);
-  else if (val === 'rating') filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0));
-
-  filteredProducts = filtered;
-
-  const countEl = document.getElementById('prodCount');
-  if (countEl) countEl.textContent =
-    filteredProducts.length + ' product' + (filteredProducts.length !== 1 ? 's' : '');
-
-  const grid = document.getElementById('prodGrid');
-  if (grid) { grid.innerHTML = ''; displayedCount = 0; loadMoreProducts(); }
+  applyFilterSort();
 }
 
 function applyFilterSort() {
-  filteredProducts = currentFilter === 'all'
+  if (!allProducts || allProducts.length === 0) {
+    allProducts = (typeof getProducts === 'function') ? getProducts() : SHOP_PRODUCT_LIST;
+  }
+
+  // 1. Filter by category
+  let filtered = currentFilter === 'all'
     ? [...allProducts]
     : allProducts.filter(p => {
+        const cat = (p.category || '').toLowerCase();
         if (currentFilter === 'vegetable') {
-          return p.category === 'vegetable' || p.category === 'vegetables';
+          return cat === 'vegetable' || cat === 'vegetables';
         }
-        return p.category === currentFilter;
+        if (currentFilter === 'fruit' || currentFilter === 'fruits') {
+          return cat === 'fruit' || cat === 'fruits';
+        }
+        return cat === currentFilter.toLowerCase();
       });
 
-  if (currentSort === 'pa') filteredProducts.sort((a, b) => a.price - b.price);
-  else if (currentSort === 'pd') filteredProducts.sort((a, b) => b.price - a.price);
+  // 2. Filter by search term
+  if (currentSearch) {
+    filtered = filtered.filter(p => 
+      (p.name || '').toLowerCase().includes(currentSearch) ||
+      (p.desc || '').toLowerCase().includes(currentSearch) ||
+      (p.category || '').toLowerCase().includes(currentSearch)
+    );
+  }
+
+  // 3. Sort
+  if (currentSort === 'pa') {
+    filtered.sort((a, b) => a.price - b.price);
+  } else if (currentSort === 'pd') {
+    filtered.sort((a, b) => b.price - a.price);
+  } else if (currentSort === 'rating') {
+    filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+  }
+
+  filteredProducts = filtered;
 
   const countEl = document.getElementById('prodCount');
   if (countEl) countEl.textContent =
@@ -243,7 +254,8 @@ const SHOP_PRODUCT_LIST = [
   { id:'corn', name:'Corn', image:'assets/images/corn.jpg', farm:'local Farms', desc:'Corn.', price:20, unit:'kg', rating:4.8, reviews:219, category:'vegetable' },
   { id:'radish', name:'Radish', image:'assets/images/radish.jpg', farm:'local Farms', desc:'Radish.', price:8, unit:'bunch', rating:4.4, reviews:62, category:'vegetable' },
   { id:'broccoli', name:'Broccoli', image:'assets/images/broccoli.jpg', farm:'local Farms', desc:'Broccoli.', price:60, unit:'kg', rating:4.7, reviews:80, category:'vegetable' },
-  { id:'mushroom', name:'Fresh Mushroom', image:'assets/images/mushroom.jpg', farm:'local Farms', desc:'Fresh Mushroom.', price:50, unit:'250g box', rating:4.7, reviews:80, category:'vegetable' }
+  { id:'mushroom', name:'Fresh Mushroom', image:'assets/images/mushroom.jpg', farm:'local Farms', desc:'Fresh Mushroom.', price:50, unit:'250g box', rating:4.7, reviews:80, category:'vegetable' },
+  { id:'red-apple', name:'Kashmiri Red Apple', image:'assets/images/redapple.jpg', farm:'local Farms', desc:'Fresh Red Apples.', price:120, unit:'kg', rating:4.9, reviews:310, category:'fruit' }
 ];
 
 /* Seed localStorage so cart.js can find products by ID */

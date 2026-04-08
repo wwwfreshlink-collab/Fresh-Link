@@ -416,37 +416,6 @@
         updateStickyCart();
       });
 
-      /* ── Search ── */
-      function doSearch(val) {
-        const v = val.trim().toLowerCase();
-        const all = typeof getProducts === "function" ? getProducts() : [];
-
-        if (!v) {
-          filteredProducts = [...all];
-        } else {
-          filteredProducts = all.filter(
-            (p) =>
-              p.name.toLowerCase().includes(v) ||
-              (p.desc && p.desc.toLowerCase().includes(v)) ||
-              (p.category && p.category.toLowerCase().includes(v)),
-          );
-        }
-
-        const countEl = document.getElementById("prodCount");
-        if (countEl)
-          countEl.textContent =
-            filteredProducts.length +
-            " product" +
-            (filteredProducts.length !== 1 ? "s" : "");
-
-        const grid = document.getElementById("prodGrid");
-        if (grid) {
-          grid.innerHTML = "";
-          displayedCount = 0;
-          loadMoreProducts();
-        }
-      }
-
       /* ── Sticky cart + delivery progress ── */
       function updateStickyCart() {
         const bar = document.getElementById("stickyCart");

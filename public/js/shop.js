@@ -164,7 +164,7 @@ function buildProductCard(p) {
     : `<button class="add-btn" id="addBtn_${p.id}" onclick="handleAdd('${p.id}')">+</button>`;
 
   return `
-  <article class="prod-card reveal">
+  <article class="prod-card">
     <div class="prod-card-img-wrap">
       <img src="${p.image}" alt="${p.name}" loading="lazy"
            onerror="this.src='assets/images/default.jpg'" />

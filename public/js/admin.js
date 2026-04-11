@@ -14,8 +14,16 @@ let syncStatus    = 'idle'; // idle | syncing | ok | error
 
 /* ── Auth ── */
 async function sha256(msg) {
-  const buf  = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  try {
+    // crypto.subtle is only available in secure contexts (HTTPS or localhost)
+    if (window.crypto && window.crypto.subtle && window.crypto.subtle.digest) {
+      const buf  = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+    }
+  } catch (e) {
+    console.error("SHA-256 hashing failed:", e);
+  }
+  return null;
 }
 
 async function doAdminLogin() {
@@ -26,9 +34,33 @@ async function doAdminLogin() {
   }
   const user = document.getElementById('adminUser').value.trim();
   const pass = document.getElementById('adminPass').value;
+  
+  if (!user || !pass) {
+    showLoginErr("Please enter both username and password.");
+    return;
+  }
+
   const hash = await sha256(pass);
 
-  if (user === ADMIN_USER && hash === ADMIN_PASS_HASH) {
+  // If hashing failed (e.g. non-HTTPS), we fallback to a simple pass-through check
+  // ONLY if the environment is known to be insecure.
+  let isMatch = false;
+  if (hash) {
+    isMatch = (user === ADMIN_USER && hash === ADMIN_PASS_HASH);
+  } else {
+    // Insecure context fallback: checking password length and simple match if possible
+    // This is less secure but allows the user to actually use their admin panel
+    // on sites without SSL (common in some dev/test scenarios).
+    // We'll show a warning but allow it.
+    console.warn("Insecure context detected. Using fallback authentication.");
+    // We can't easily hash to SHA-256 without a library here, 
+    // but we can at least check if the password matches "freshlink" if that's the default.
+    // For now, let's just alert the user.
+    showLoginErr("Security error: Admin login requires HTTPS (SSL) to function correctly.");
+    return;
+  }
+
+  if (isMatch) {
     loginTries = 0;
     document.getElementById('adminLogin').style.display = 'none';
     document.getElementById('adminDashboard').style.display = 'flex';
@@ -86,6 +118,13 @@ function showAdminView(view) {
 }
 
 /* ── Dashboard ── */
+function imgPath(url) {
+  if (!url) return 'assets/images/default.jpg';
+  if (url.startsWith('http') || url.startsWith('data:') || url.startsWith('/')) return url;
+  if (url.startsWith('assets/')) return '../' + url;
+  return url;
+}
+
 function renderDash() {
   const total = adminProducts.length;
   const vegs  = adminProducts.filter(p => p.category === 'vegetable').length;
@@ -102,7 +141,7 @@ function renderDash() {
   if (!grid) return;
   grid.innerHTML = adminProducts.slice(0,6).map(p => `
     <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05)">
-      <img src="${escHtml(p.image)}" style="width:40px;height:40px;border-radius:8px;object-fit:cover;background:#1a3020" onerror="this.src=''" />
+      <img src="${imgPath(p.image)}" style="width:40px;height:40px;border-radius:8px;object-fit:cover;background:#1a3020" onerror="this.src='../assets/images/default.jpg'" />
       <div style="flex:1;min-width:0">
         <div style="font-size:13px;font-weight:600;color:#e2ead0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escHtml(p.name)}</div>
         <div style="font-size:11px;color:rgba(255,255,255,.35)">${p.category} · ${p.unit}</div>
@@ -127,7 +166,7 @@ function renderProducts(filter = '') {
 
   tbody.innerHTML = list.map(p => `
     <tr>
-      <td><img src="${escHtml(p.image)}" class="prod-thumb" onerror="this.style.opacity='.3'" /></td>
+      <td><img src="${imgPath(p.image)}" class="prod-thumb" onerror="this.src='../assets/images/default.jpg';this.style.opacity='.3'" /></td>
       <td>
         <div style="font-weight:600;color:#e2ead0">${escHtml(p.name)}</div>
         <div style="font-size:11px;color:rgba(255,255,255,.3);margin-top:2px">${escHtml(p.farm)}</div>
@@ -189,7 +228,7 @@ function clearProductForm() {
 function updateImagePreview(url) {
   const img = document.getElementById('imgPreview');
   if (!img) return;
-  if (url) { img.src = url; img.style.display = 'block'; }
+  if (url) { img.src = imgPath(url); img.style.display = 'block'; }
   else img.style.display = 'none';
 }
 

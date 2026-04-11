@@ -16,7 +16,7 @@ const MAX_LOGIN_TRIES = 5;
 const LOCKOUT_MS      = 5 * 60 * 1000;
 
 /* ── Google Sheets sync ── */
-var GSHEET_URL = ''; 
+var GSHEET_URL = localStorage.getItem('fl_gsheet_url') || ''; 
 
 /* Storage keys */
 const LS_PRODUCTS = 'fl_products_v5';

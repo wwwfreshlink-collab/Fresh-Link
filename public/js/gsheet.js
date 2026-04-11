@@ -48,10 +48,16 @@ const GSheet = {
   async pull() {
     if (!GSHEET_URL) return null;
     try {
-      const res  = await fetch(GSHEET_URL + '?action=get', { method:'GET' });
+      // Use no-cache to ensure fresh data
+      const res  = await fetch(GSHEET_URL + '?action=get', { 
+        method:'GET',
+        cache: 'no-cache'
+      });
       const json = await res.json();
-      if (json.ok && Array.isArray(json.products) && json.products.length) {
-        localStorage.setItem(LS_PRODUCTS, JSON.stringify(json.products));
+      if (json.ok && Array.isArray(json.products)) {
+        if (json.products.length > 0) {
+          localStorage.setItem(LS_PRODUCTS, JSON.stringify(json.products));
+        }
         return json.products;
       }
     } catch(e) { console.warn('GSheet pull failed:', e.message); }
@@ -62,13 +68,20 @@ const GSheet = {
   async push(products) {
     if (!GSHEET_URL) return false;
     try {
+      // Use text/plain to avoid CORS preflight (OPTIONS request) which GAS doesn't handle well
       const res  = await fetch(GSHEET_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({ products })
       });
-      const json = await res.json();
-      return json.ok;
+      const text = await res.text();
+      try {
+        const json = JSON.parse(text);
+        return json.ok;
+      } catch(e) {
+        // GAS sometimes returns an HTML error/success page or a redirect
+        return text.includes('"ok":true') || text.includes('ok: true');
+      }
     } catch(e) { console.warn('GSheet push failed:', e.message); return false; }
   },
 

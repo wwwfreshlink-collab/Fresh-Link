@@ -12,8 +12,19 @@ let displayedCount   = 0;
 const PAGE_SIZE      = 30;   // batch size – updated to 30 products as requested
 let isLoading        = false;
 
-document.addEventListener('DOMContentLoaded', () => {
-  allProducts = SHOP_PRODUCT_LIST;
+document.addEventListener('DOMContentLoaded', async () => {
+  // If GSHEET_URL is set, try to pull fresh data first
+  if (typeof GSheet !== 'undefined' && GSheet.isConnected()) {
+    allProducts = await GSheet.loadProducts();
+  } else {
+    // Fallback to local storage (which might have cached GSheet data)
+    allProducts = (typeof getProducts === 'function') ? getProducts() : SHOP_PRODUCT_LIST;
+  }
+  
+  if (!allProducts || allProducts.length === 0) {
+    allProducts = SHOP_PRODUCT_LIST;
+  }
+
   applyFilterSort();
   setupInfiniteScroll();
 });
@@ -265,8 +276,8 @@ const SHOP_PRODUCT_LIST = [
 (function seedProducts() {
   try {
     const stored = localStorage.getItem(LS_PRODUCTS);
-    const parsed = stored ? JSON.parse(stored) : null;
-    if (!parsed || parsed.length !== SHOP_PRODUCT_LIST.length) {
+    // Only seed if localStorage is empty or broken
+    if (!stored || stored === '[]' || stored === 'null') {
       localStorage.setItem(LS_PRODUCTS, JSON.stringify(SHOP_PRODUCT_LIST));
     }
   } catch(e) {

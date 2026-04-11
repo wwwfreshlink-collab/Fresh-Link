@@ -195,9 +195,9 @@ function handleAdd(id) {
   if (!ctrl) return;
   ctrl.innerHTML = `
     <div class="qty-ctrl">
-      <button onclick="changeQty('${id}',-1)">−</button>
-      <span id="qtyNum_${id}">1</span>
-      <button onclick="changeQty('${id}',1)">+</button>
+      <button class="qty-btn" onclick="changeQty('${id}',-1)">−</button>
+      <span class="qty-num" id="qtyNum_${id}">1</span>
+      <button class="qty-btn" onclick="changeQty('${id}',1)">+</button>
     </div>`;
 }
 

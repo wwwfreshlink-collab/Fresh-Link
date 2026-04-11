@@ -17,7 +17,7 @@ const LOCKOUT_MS      = 5 * 60 * 1000;
 
 /* ── Google Sheets sync ── */
 // PASTE YOUR GOOGLE APPS SCRIPT URL HERE to make it work for everyone:
-const PERMANENT_GSHEET_URL = 'https://script.google.com/macros/s/AKfycbwP4VnBhNYzCPTjc-BLTt8Vx6nLiOoRy9xcu_TBvmncPF891MIt1XubFSG0_BjAJDwa/exec'; 
+const PERMANENT_GSHEET_URL = 'https://script.google.com/macros/s/AKfycbzOrrvJ7ZXSCzA0vD9e9SXaORVeNWQ0ySN-IjAdYAs9TyVjenUThotDcaMxvQ-TdsWF/exec'; 
 
 var GSHEET_URL = localStorage.getItem('fl_gsheet_url') || PERMANENT_GSHEET_URL; 
 

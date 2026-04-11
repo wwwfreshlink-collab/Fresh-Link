@@ -46,21 +46,32 @@ const GSheet = {
 
   /* Pull products from Google Sheet */
   async pull() {
-    if (!GSHEET_URL) return null;
+    if (!GSHEET_URL) { console.error('GSheet Error: No URL configured'); return null; }
     try {
-      // Use no-cache to ensure fresh data
+      console.log('GSheet: Pulling from', GSHEET_URL);
       const res  = await fetch(GSHEET_URL + '?action=get', { 
         method:'GET',
         cache: 'no-cache'
       });
+      
+      if (!res.ok) {
+        console.error('GSheet Pull HTTP Error:', res.status, res.statusText);
+        return null;
+      }
+
       const json = await res.json();
+      console.log('GSheet Pull Response:', json);
+
       if (json.ok && Array.isArray(json.products)) {
         if (json.products.length > 0) {
           localStorage.setItem(LS_PRODUCTS, JSON.stringify(json.products));
         }
         return json.products;
       }
-    } catch(e) { console.warn('GSheet pull failed:', e.message); }
+    } catch(e) { 
+      console.error('GSheet Pull Exception:', e.message); 
+      console.log('Possible cause: Script not deployed as "Anyone", or Google Sheet not authorized.');
+    }
     return null;
   },
 
@@ -68,21 +79,25 @@ const GSheet = {
   async push(products) {
     if (!GSHEET_URL) return false;
     try {
-      // Use text/plain to avoid CORS preflight (OPTIONS request) which GAS doesn't handle well
+      console.log('GSheet: Pushing products...', products.length);
       const res  = await fetch(GSHEET_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({ products })
       });
       const text = await res.text();
+      console.log('GSheet Push Raw Response:', text);
+      
       try {
         const json = JSON.parse(text);
         return json.ok;
       } catch(e) {
-        // GAS sometimes returns an HTML error/success page or a redirect
         return text.includes('"ok":true') || text.includes('ok: true');
       }
-    } catch(e) { console.warn('GSheet push failed:', e.message); return false; }
+    } catch(e) { 
+      console.error('GSheet Push Exception:', e.message); 
+      return false; 
+    }
   },
 
   /* Load products: GSheet first, fallback to localStorage, then defaults */

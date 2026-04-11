@@ -45,7 +45,6 @@
         id="nav"
         role="navigation"
         aria-label="Main navigation"
-        style="top: 40px"
       >
         <div class="nav-logo">
           <a href="index.html" style="display: flex; align-items: center; gap: 8px">
@@ -107,7 +106,7 @@
       </a>
     </nav>
 
-    <main style="padding-top: 40px">
+    <main>
       <!-- Hero -->
       <section class="hero" id="hero" aria-label="Hero">
         <div class="hero-bg-blob blob1"></div>
@@ -548,14 +547,6 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         if (typeof lucide !== "undefined") lucide.createIcons();
-        // Adjust nav top for banner
-        const banner = document.getElementById("deliveryBanner");
-        const nav = document.getElementById("nav");
-        if (banner && nav) {
-          const h = banner.offsetHeight;
-          nav.style.top = h + "px";
-          document.querySelector("main").style.paddingTop = 66 + h + "px";
-        }
       });
     </script>
   </body>

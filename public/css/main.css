@@ -64,8 +64,13 @@ body,
 #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 /* ── Navbar ── */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
 #nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 40px; height: 66px;
   background: rgba(250, 252, 248, 0.94);
@@ -163,7 +168,7 @@ body,
 
 /* ── Delivery Banner ── */
 .delivery-banner {
-  position: fixed; top: 66px; left: 0; right: 0; z-index: 998;
+  position: relative; top: 0; left: 0; right: 0; z-index: 998;
   background: var(--forest); color: var(--lime);
   text-align: center; padding: 8px 20px;
   font-size: 13px; font-weight: 500; letter-spacing: .02em;
@@ -222,7 +227,7 @@ body,
 
 /* ── Hero ── */
 .hero {
-  min-height: 100vh; padding: 130px 80px 80px;
+  min-height: 100vh; padding: 60px 80px 80px;
   display: flex; align-items: center; justify-content: space-between;
   gap: 60px; position: relative; overflow: hidden;
   background: linear-gradient(135deg, var(--ivory) 0%, #edf5e8 60%, #e2f0db 100%);
@@ -518,7 +523,7 @@ footer {
 
 /* ── Cart Page ── */
 .cart-layout {
-  max-width: 1000px; margin: 100px auto 60px; padding: 0 20px;
+  max-width: 1000px; margin: 40px auto 60px; padding: 0 20px;
   display: grid; grid-template-columns: 1fr 360px;
   gap: 28px; align-items: start;
 }
@@ -559,7 +564,7 @@ footer {
 
 /* ── Checkout Page ── */
 .checkout-layout {
-  max-width: 1000px; margin: 100px auto 60px; padding: 0 20px;
+  max-width: 1000px; margin: 40px auto 60px; padding: 0 20px;
   display: grid; grid-template-columns: 1fr 380px;
   gap: 28px; align-items: start;
 }

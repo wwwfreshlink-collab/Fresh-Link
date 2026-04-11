@@ -374,11 +374,16 @@ function adminToast(msg) {
 /* ── On load ── */
 document.addEventListener('DOMContentLoaded', () => {
   if (typeof lucide !== 'undefined') lucide.createIcons();
-  // Load GSHEET_URL from localStorage if set by admin previously
-  const savedUrl = localStorage.getItem('fl_gsheet_url');
-  if (savedUrl) window.GSHEET_URL = savedUrl;
+  
+  // Ensure GSHEET_URL is correctly set from config or memory
+  if (!window.GSHEET_URL && typeof PERMANENT_GSHEET_URL !== 'undefined') {
+    window.GSHEET_URL = PERMANENT_GSHEET_URL;
+  }
 
-  document.getElementById('adminPass').addEventListener('keydown', e => {
-    if (e.key === 'Enter') doAdminLogin();
-  });
+  const passInput = document.getElementById('adminPass');
+  if (passInput) {
+    passInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') doAdminLogin();
+    });
+  }
 });

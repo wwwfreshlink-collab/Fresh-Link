@@ -41,24 +41,27 @@
           ><a href="about.html" class="active">About</a>
         </div>
         <div class="nav-right">
-          <a href="cart.html" style="text-decoration: none"
+          <a href="cart.html" style="text-decoration: none">
             <button class="cart-pill">
               <i data-lucide="shopping-bag" style="width: 15px"></i> <span class="cart-text">Cart</span>
               <span class="cart-badge" id="cartBadge">0</span>
             </button>
-          ><button class="ham-btn" id="hamBtn">
+          </a>
+          <button class="ham-btn" id="hamBtn" aria-label="Toggle menu">
             <span></span><span></span><span></span>
           </button>
         </div>
       </nav>
     </header>
     <nav class="mobile-nav" id="mobileNav">
-      <a href="index.html">🏠 Home</a><a href="shop.html">🛍️ Shop</a
-      ><a href="how-it-works.html">⚡ How It Works</a
-      ><a href="about.html" class="active">🌿 About</a
-      ><a href="cart.html" class="cart-pill-mobile"
-        ><i data-lucide="shopping-bag" style="width: 18px"></i> Cart</a
-      >
+      <a href="index.html">🏠 Home</a>
+      <a href="shop.html">🛍️ Shop</a>
+      <a href="how-it-works.html">⚡ How It Works</a>
+      <a href="about.html" class="active">🌿 About</a>
+      <a href="cart.html" class="cart-pill-mobile">
+        <i data-lucide="shopping-bag" style="width: 20px"></i>
+        Cart <span class="cart-badge" id="mobileCartBadge">0</span>
+      </a>
     </nav>
 
     <main>
@@ -102,15 +105,7 @@
 
       <!-- Mission -->
       <section class="section" style="background: var(--white)">
-        <div
-          class="inner"
-          style="
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: center;
-          "
-        >
+        <div class="inner responsive-grid">
           <div class="reveal">
             <div class="sec-kicker">The Problem We Solve</div>
             <h2 class="sec-title">The Chain Was <em>Broken</em></h2>
@@ -198,7 +193,7 @@
 
       <!-- Founder Story -->
       <section class="section" style="background: var(--white)">
-        <div class="inner" style="display:grid;grid-template-columns: 1fr 1fr;gap:40px;align-items:center;">
+        <div class="inner responsive-grid">
           <div class="reveal">
             <div class="sec-kicker">Founder Story</div>
             <h2 class="sec-title">From Frustration to Responsibility</h2>
@@ -249,6 +244,7 @@
               grid-template-columns: repeat(3, 1fr);
               gap: 20px;
             "
+            class="categories-grid"
           >
             <div
               class="feat reveal"

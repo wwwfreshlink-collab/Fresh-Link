@@ -41,24 +41,27 @@
           ><a href="about.html">About</a>
         </div>
         <div class="nav-right">
-          <a href="cart.html" style="text-decoration: none"
+          <a href="cart.html" style="text-decoration: none">
             <button class="cart-pill">
               <i data-lucide="shopping-bag" style="width: 15px"></i> <span class="cart-text">Cart</span>
               <span class="cart-badge" id="cartBadge">0</span>
             </button>
-          ><button class="ham-btn" id="hamBtn">
+          </a>
+          <button class="ham-btn" id="hamBtn" aria-label="Toggle menu">
             <span></span><span></span><span></span>
           </button>
         </div>
       </nav>
     </header>
     <nav class="mobile-nav" id="mobileNav">
-      <a href="index.html">🏠 Home</a><a href="shop.html">🛍️ Shop</a
-      ><a href="how-it-works.html" class="active">⚡ How It Works</a
-      ><a href="about.html">🌿 About</a
-      ><a href="cart.html" class="cart-pill-mobile"
-        ><i data-lucide="shopping-bag" style="width: 18px"></i> Cart</a
-      >
+      <a href="index.html">🏠 Home</a>
+      <a href="shop.html">🛍️ Shop</a>
+      <a href="how-it-works.html" class="active">⚡ How It Works</a>
+      <a href="about.html">🌿 About</a>
+      <a href="cart.html" class="cart-pill-mobile">
+        <i data-lucide="shopping-bag" style="width: 20px"></i>
+        Cart <span class="cart-badge" id="mobileCartBadge">0</span>
+      </a>
     </nav>
 
     <main>
@@ -110,13 +113,7 @@
         <div class="inner">
           <div style="display: flex; flex-direction: column; gap: 80px">
             <div
-              class="reveal"
-              style="
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 60px;
-                align-items: center;
-              "
+              class="reveal responsive-grid"
             >
               <div>
                 <div
@@ -147,13 +144,7 @@
             </div>
 
             <div
-              class="reveal"
-              style="
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 60px;
-                align-items: center;
-              "
+              class="reveal responsive-grid"
             >
               <img
                 src="https://images.unsplash.com/photo-1614961908168-0c4e1b9a7f2b?auto=format&fm=webp&fit=crop&w=600&q=75"
@@ -162,7 +153,6 @@
                   width: 100%;
                   border-radius: var(--r16);
                   box-shadow: var(--shadow-xl);
-                  order: 1;
                 "
                 loading="lazy"
                 onerror="
@@ -170,7 +160,7 @@
                     'https://images.unsplash.com/photo-1553279768-865429fa0078?w=600'
                 "
               />
-              <div style="order: 2">
+              <div>
                 <div
                   style="font-size: 80px; line-height: 1; margin-bottom: 16px"
                 >
@@ -189,13 +179,7 @@
             </div>
 
             <div
-              class="reveal"
-              style="
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 60px;
-                align-items: center;
-              "
+              class="reveal responsive-grid"
             >
               <div>
                 <div
@@ -245,13 +229,7 @@
             </div>
 
             <div
-              class="reveal"
-              style="
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 60px;
-                align-items: center;
-              "
+              class="reveal responsive-grid"
             >
               <img
                 src="https://imgs.search.brave.com/DYMwY6WrmS8MmriVjeqDvUXAoYJonMD4e7tm_iMLXaI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/ZnJlZS1waG90by9k/ZWxpdmVyeS1tYW4t/d2VhcmluZy1mYWNl/LW1hc2staG9sZGlu/Zy1ib3gtd2l0aC12/ZWdldGFibGVzXzEy/NjgtMTQ2MTIuanBn/P3NpemU9NjI2JmV4/dD1qcGc"

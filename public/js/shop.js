@@ -249,7 +249,7 @@ function setupInfiniteScroll() {
 /* ================= PRODUCTS DATA ================= */
 
 const SHOP_PRODUCT_LIST = [
-  { id:'tomato',  name:'Desi Tomatoes', image:'assets/images/tomato.jpg', farm:'local Farms', desc:'Fresh juicy tomatoes.', price:15, unit:'kg', rating:4.8, reviews:214, category:'vegetable' },
+  { id:'tomato',  name:'Desi Tomatoes', image:'assets/images/tomato.jpg', farm:'local Farms', desc:'Fresh juicy tomatoes.', price:20, unit:'kg', rating:4.8, reviews:214, category:'vegetable' },
   { id:'spinach', name:'Fresh Spinach',  image:'assets/images/spinach.jpg', farm:'local Farms', desc:'Fresh green spinach.', price:8,  unit:'bunch', rating:4.7, reviews:180, category:'vegetable' },
   { id:'carrot',  name:'Organic Carrots', image:'assets/images/carrot.jpg', farm:'local Farms', desc:'Crunchy organic carrots.', price:30, unit:'kg', rating:4.6, reviews:162, category:'vegetable' },
   { id:'brinjal', name:'Brinjal', image:'assets/images/brinjal.jpg', farm:'local Farms', desc:'Fresh brinjals.', price:20, unit:'kg', rating:4.5, reviews:98, category:'vegetable' },

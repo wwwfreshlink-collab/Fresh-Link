@@ -19,7 +19,9 @@ const LOCKOUT_MS      = 5 * 60 * 1000;
 // PASTE YOUR GOOGLE APPS SCRIPT URL HERE to make it work for everyone:
 const PERMANENT_GSHEET_URL = 'https://script.google.com/macros/s/AKfycbzOrrvJ7ZXSCzA0vD9e9SXaORVeNWQ0ySN-IjAdYAs9TyVjenUThotDcaMxvQ-TdsWF/exec'; 
 
-var GSHEET_URL = PERMANENT_GSHEET_URL || localStorage.getItem('fl_gsheet_url') || ''; 
+var GSHEET_URL = (typeof PERMANENT_GSHEET_URL !== 'undefined' && PERMANENT_GSHEET_URL) 
+                 ? PERMANENT_GSHEET_URL.trim() 
+                 : (localStorage.getItem('fl_gsheet_url') || '').trim();
 
 /* Storage keys */
 const LS_PRODUCTS = 'fl_products_v5';

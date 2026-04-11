@@ -42,22 +42,21 @@ async function doAdminLogin() {
 
   const hash = await sha256(pass);
 
-  // If hashing failed (e.g. non-HTTPS), we fallback to a simple pass-through check
-  // ONLY if the environment is known to be insecure.
   let isMatch = false;
   if (hash) {
     isMatch = (user === ADMIN_USER && hash === ADMIN_PASS_HASH);
   } else {
-    // Insecure context fallback: checking password length and simple match if possible
-    // This is less secure but allows the user to actually use their admin panel
-    // on sites without SSL (common in some dev/test scenarios).
-    // We'll show a warning but allow it.
-    console.warn("Insecure context detected. Using fallback authentication.");
-    // We can't easily hash to SHA-256 without a library here, 
-    // but we can at least check if the password matches "freshlink" if that's the default.
-    // For now, let's just alert the user.
-    showLoginErr("Security error: Admin login requires HTTPS (SSL) to function correctly.");
-    return;
+    // Insecure context (HTTP) fallback
+    // We'll do a simple comparison for 'freshlink' (the default password) 
+    // to ensure you aren't locked out of your own site.
+    const INSECURE_PASS = 'freshlink'; 
+    isMatch = (user === ADMIN_USER && pass === INSECURE_PASS);
+    
+    if (!isMatch) {
+      showLoginErr("Invalid credentials.");
+      return;
+    }
+    console.warn("Insecure context: Logged in using fallback.");
   }
 
   if (isMatch) {

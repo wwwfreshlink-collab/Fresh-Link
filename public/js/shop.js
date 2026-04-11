@@ -194,7 +194,7 @@ function handleAdd(id) {
   const ctrl = document.getElementById('ctrl_' + id);
   if (!ctrl) return;
   ctrl.innerHTML = `
-    <div class="qty-ctrl">
+    <div class="qty-ctrl" id="qtyCtrl_${id}">
       <button class="qty-btn" onclick="changeQty('${id}',-1)">−</button>
       <span class="qty-num" id="qtyNum_${id}">1</span>
       <button class="qty-btn" onclick="changeQty('${id}',1)">+</button>
@@ -209,12 +209,15 @@ function changeQty(id, delta) {
   const newQty = item.qty + delta;
   if (newQty <= 0) {
     removeFromCart(id);
-    document.getElementById('ctrl_' + id).innerHTML =
-      `<button onclick="handleAdd('${id}')">+</button>`;
+    const ctrl = document.getElementById('ctrl_' + id);
+    if (ctrl) {
+      ctrl.innerHTML = `<button class="add-btn" id="addBtn_${id}" onclick="handleAdd('${id}')">+</button>`;
+    }
     return;
   }
   setQty(id, newQty);
-  document.getElementById('qtyNum_' + id).textContent = newQty;
+  const numEl = document.getElementById('qtyNum_' + id);
+  if (numEl) numEl.textContent = newQty;
 }
 
 /* ================= INFINITE SCROLL ================= */

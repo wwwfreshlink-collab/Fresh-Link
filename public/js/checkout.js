@@ -34,6 +34,9 @@ function renderOrderSummary() {
       <img class="order-item-img" src="${escHtml(p.image)}" alt="${escHtml(p.name)}" loading="lazy" onerror="this.style.display='none'" />
       <span class="order-item-name">${escHtml(p.name)} × ${item.qty}</span>
       <span class="order-item-price">${fmt(price * item.qty)}</span>
+      <button class="remove-item-btn" onclick="checkoutRemove('${p.id}')" aria-label="Remove ${escHtml(p.name)}">
+        <i data-lucide="x" style="width:14px;height:14px"></i>
+      </button>
     </div>`;
   }).join('');
 
@@ -41,9 +44,20 @@ function renderOrderSummary() {
   const total = sub + delivery;
 
   if (container)   container.innerHTML = rows;
+  if (typeof lucide !== 'undefined') lucide.createIcons();
   if (subtotalEl)  subtotalEl.textContent = fmt(sub);
   if (deliveryEl)  deliveryEl.textContent = delivery === 0 ? 'FREE 🎉' : fmt(delivery);
   if (totalEl)     totalEl.textContent    = fmt(total);
+}
+
+function checkoutRemove(id) {
+  removeFromCart(id);
+  renderOrderSummary();
+  updateAllBadges();
+  if (getCartCount() === 0) {
+    showToast('Cart is empty, redirecting...');
+    setTimeout(() => window.location.href = 'shop.html', 1500);
+  }
 }
 
 function selectPayment(method) {

@@ -57,5 +57,7 @@ const DEFAULT_PRODUCTS = [
   { id:'corn', name:'Corn', emoji:'🌽', category:'vegetable', price:20, unit:'kg', farm:'local Farms', badge:'new', rating:4.8, reviews:219, desc:'Corn.', image:'assets/images/corn.jpg' },
   { id:'radish', name:'Radish', emoji:'🌶', category:'vegetable', price:8, unit:'bunch', farm:'local Farms', badge:null, rating:4.4, reviews:62, desc:'Radish.', image:'assets/images/radish.jpg' },
   { id:'broccoli', name:'Broccoli', emoji:'🥦', category:'vegetable', price:60, unit:'kg', farm:'local Farms', badge:null, rating:4.7, reviews:80, desc:'Broccoli.', image:'assets/images/broccoli.jpg' },
-  { id:'mushroom', name:'Fresh Mushroom', emoji:'🍄', category:'vegetable', price:50, unit:'250g box', farm:'local Farms', badge:null, rating:4.7, reviews:80, desc:'Fresh Mushroom.', image:'assets/images/mushroom.jpg' }
+  { id:'mushroom', name:'Fresh Mushroom', emoji:'🍄', category:'vegetable', price:50, unit:'250g box', farm:'local Farms', badge:null, rating:4.7, reviews:80, desc:'Fresh Mushroom.', image:'assets/images/mushroom.jpg' },
+  { id:'red-apple', name:'Kashmiri Red Apple', emoji:'🍎', category:'fruits', price:120, unit:'kg', farm:'local Farms', badge:null, rating:4.9, reviews:310, desc:'Fresh Red Apples.', image:'assets/images/redapple.jpg' }
 ];
+

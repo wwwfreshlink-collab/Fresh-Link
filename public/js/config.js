@@ -40,7 +40,6 @@ function genOrderId(){ return 'FL' + Date.now().toString(36).toUpperCase() + Mat
 
 /* ── Default catalogue ── */
 const DEFAULT_PRODUCTS = [
-  { id:'tomato',  name:'Desi Tomatoes', emoji:'🍅', category:'vegetable', price:15, unit:'kg', farm:'local Farms', badge:'organic', rating:4.8, reviews:214, desc:'Fresh juicy tomatoes.', image:'assets/images/tomato.jpg' },
   { id:'spinach', name:'Fresh Spinach',  emoji:'🥬', category:'vegetable', price:8,  unit:'bunch', farm:'local Farms', badge:'organic', rating:4.7, reviews:180, desc:'Fresh green spinach.', image:'assets/images/spinach.jpg' },
   { id:'carrot',  name:'Organic Carrots', emoji:'🥕', category:'vegetable', price:30, unit:'kg', farm:'local Farms', badge:'organic', rating:4.6, reviews:162, desc:'Crunchy organic carrots.', image:'assets/images/carrot.jpg' },
   { id:'brinjal', name:'Brinjal', emoji:'🍆', category:'vegetable', price:20, unit:'kg', farm:'local Farms', badge:null, rating:4.5, reviews:98, desc:'Fresh brinjals.', image:'assets/images/brinjal.jpg' },

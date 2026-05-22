@@ -24,7 +24,7 @@ var GSHEET_URL = (typeof PERMANENT_GSHEET_URL !== 'undefined' && PERMANENT_GSHEE
                  : (localStorage.getItem('fl_gsheet_url') || '').trim();
 
 /* Storage keys */
-const LS_PRODUCTS = 'fl_products_v5';
+const LS_PRODUCTS = 'fl_products_v6';
 const LS_CART     = 'fl_cart_v1';
 const LS_ORDERS   = 'fl_orders_v1';
 
@@ -40,24 +40,24 @@ function genOrderId(){ return 'FL' + Date.now().toString(36).toUpperCase() + Mat
 
 /* ── Default catalogue ── */
 const DEFAULT_PRODUCTS = [
-  { id:'spinach', name:'Fresh Spinach',  emoji:'🥬', category:'vegetable', price:8,  unit:'bunch', farm:'local Farms', badge:'organic', rating:4.7, reviews:180, desc:'Fresh green spinach.', image:'assets/images/spinach.jpg' },
-  { id:'carrot',  name:'Organic Carrots', emoji:'🥕', category:'vegetable', price:30, unit:'kg', farm:'local Farms', badge:'organic', rating:4.6, reviews:162, desc:'Crunchy organic carrots.', image:'assets/images/carrot.jpg' },
-  { id:'brinjal', name:'Brinjal', emoji:'🍆', category:'vegetable', price:20, unit:'kg', farm:'local Farms', badge:null, rating:4.5, reviews:98, desc:'Fresh brinjals.', image:'assets/images/brinjal.jpg' },
-  { id:'potato',  name:'Potato', emoji:'🥔', category:'vegetable', price:15, unit:'kg', farm:'local Farms', badge:null, rating:4.5, reviews:120, desc:'Farm potatoes.', image:'assets/images/potato.jpg' },
-  { id:'capsicum', name:'Fresh Capsicum', emoji:'🫑', category:'vegetable', price:65, unit:'kg', farm:'local Farms', badge:'new', rating:4.7, reviews:80, desc:'Fresh capsicums.', image:'assets/images/capsicum.jpg' },
-  { id:'cauliflower', name:'Fresh Cauliflower', emoji:'🥦', category:'vegetable', price:18, unit:'kg', farm:'local Farms', badge:null, rating:4.7, reviews:80, desc:'Fresh cauliflower.', image:'assets/images/cauliflower.jpg' },
-  { id:'baby-potato', name:'Baby potato', emoji:'🥔', category:'vegetable', price:7, unit:'kg', farm:'local Farms', badge:null, rating:4.7, reviews:80, desc:'Fresh Baby Potatoes.', image:'assets/images/babypotato.jpg' },
-  { id:'curry-leaves', name:'Fresh Curry leaves', emoji:'🌿', category:'vegetable', price:15, unit:'bunch', farm:'local Farms', badge:'organic', rating:4.7, reviews:80, desc:'Fresh curry leaves.', image:'assets/images/curryleaves.jpg' },
-  { id:'red-onion', name:'Red Onion', emoji:'🧅', category:'vegetable', price:16, unit:'kg', farm:'local Farms', badge:null, rating:4.7, reviews:289, desc:'farm Red Onion.', image:'assets/images/redonion.jpg' },
-  { id:'frozen-peas', name:'Frozen Peas', emoji:'🫛', category:'vegetable', price:80, unit:'kg', farm:'local Farms', badge:'organic', rating:4.6, reviews:134, desc:'Frozen Peas.', image:'assets/images/frozenpea.jpg' },
-  { id:'karela', name:'Karela', emoji:'🥒', category:'vegetable', price:50, unit:'kg', farm:'local Farms', badge:null, rating:4.2, reviews:76, desc:'Karela.', image:'assets/images/karela.jpg' },
-  { id:'drumstick', name:'Drumstick', emoji:'🌿', category:'vegetable', price:40, unit:'kg', farm:'local Farms', badge:'organic', rating:4.5, reviews:91, desc:'Drum Stick.', image:'assets/images/drumstick.jpg' },
-  { id:'lady-finger', name:'Lady Finger', emoji:'🌱', category:'vegetable', price:50, unit:'kg', farm:'local Farms', badge:null, rating:4.7, reviews:183, desc:'Lady Finger.', image:'assets/images/ladyfinger.jpg' },
-  { id:'bottle-gaurd', name:'Bottle gaurd', emoji:'🥦', category:'vegetable', price:8, unit:'kg', farm:'local Farms', badge:null, rating:4.4, reviews:102, desc:'Bottle gaurd.', image:'assets/images/bottlegurad.jpg' },
-  { id:'methi', name:'Fresh Methi', emoji:'🌿', category:'vegetable', price:10, unit:'bunch', farm:'local Farms', badge:'organic', rating:4.6, reviews:147, desc:'Fresh Methi.', image:'assets/images/methi.jpg' },
-  { id:'corn', name:'Corn', emoji:'🌽', category:'vegetable', price:20, unit:'kg', farm:'local Farms', badge:'new', rating:4.8, reviews:219, desc:'Corn.', image:'assets/images/corn.jpg' },
-  { id:'radish', name:'Radish', emoji:'🌶', category:'vegetable', price:8, unit:'bunch', farm:'local Farms', badge:null, rating:4.4, reviews:62, desc:'Radish.', image:'assets/images/radish.jpg' },
-  { id:'broccoli', name:'Broccoli', emoji:'🥦', category:'vegetable', price:60, unit:'kg', farm:'local Farms', badge:null, rating:4.7, reviews:80, desc:'Broccoli.', image:'assets/images/broccoli.jpg' },
-  { id:'mushroom', name:'Fresh Mushroom', emoji:'🍄', category:'vegetable', price:50, unit:'250g box', farm:'local Farms', badge:null, rating:4.7, reviews:80, desc:'Fresh Mushroom.', image:'assets/images/mushroom.jpg' }
+  { id:'spinach', name:'Fresh Spinach',  emoji:'🥬', category:'leafy', price:8,  unit:'bunch', farm:'local Farms', badge:'organic', rating:4.7, reviews:180, desc:'Fresh green spinach.', image:'assets/images/spinach.jpg' },
+  { id:'carrot',  name:'Organic Carrots', emoji:'🥕', category:'root', price:30, unit:'kg', farm:'local Farms', badge:'organic', rating:4.6, reviews:162, desc:'Crunchy organic carrots.', image:'assets/images/carrot.jpg' },
+  { id:'brinjal', name:'Brinjal', emoji:'🍆', category:'root', price:20, unit:'kg', farm:'local Farms', badge:null, rating:4.5, reviews:98, desc:'Fresh brinjals.', image:'assets/images/brinjal.jpg' },
+  { id:'potato',  name:'Potato', emoji:'🥔', category:'root', price:15, unit:'kg', farm:'local Farms', badge:null, rating:4.5, reviews:120, desc:'Farm potatoes.', image:'assets/images/potato.jpg' },
+  { id:'capsicum', name:'Fresh Capsicum', emoji:'🫑', category:'leafy', price:65, unit:'kg', farm:'local Farms', badge:'new', rating:4.7, reviews:80, desc:'Fresh capsicums.', image:'assets/images/capsicum.jpg' },
+  { id:'cauliflower', name:'Fresh Cauliflower', emoji:'🥦', category:'leafy', price:18, unit:'kg', farm:'local Farms', badge:null, rating:4.7, reviews:80, desc:'Fresh cauliflower.', image:'assets/images/cauliflower.jpg' },
+  { id:'baby-potato', name:'Baby potato', emoji:'🥔', category:'root', price:7, unit:'kg', farm:'local Farms', badge:null, rating:4.7, reviews:80, desc:'Fresh Baby Potatoes.', image:'assets/images/babypotato.jpg' },
+  { id:'curry-leaves', name:'Fresh Curry leaves', emoji:'🌿', category:'leafy', price:15, unit:'bunch', farm:'local Farms', badge:'organic', rating:4.7, reviews:80, desc:'Fresh curry leaves.', image:'assets/images/curryleaves.jpg' },
+  { id:'red-onion', name:'Red Onion', emoji:'🧅', category:'root', price:16, unit:'kg', farm:'local Farms', badge:null, rating:4.7, reviews:289, desc:'farm Red Onion.', image:'assets/images/redonion.jpg' },
+  { id:'frozen-peas', name:'Frozen Peas', emoji:'🫛', category:'leafy', price:80, unit:'kg', farm:'local Farms', badge:'organic', rating:4.6, reviews:134, desc:'Frozen Peas.', image:'assets/images/frozenpea.jpg' },
+  { id:'karela', name:'Karela', emoji:'🥒', category:'leafy', price:50, unit:'kg', farm:'local Farms', badge:null, rating:4.2, reviews:76, desc:'Karela.', image:'assets/images/karela.jpg' },
+  { id:'drumstick', name:'Drumstick', emoji:'🌿', category:'leafy', price:40, unit:'kg', farm:'local Farms', badge:'organic', rating:4.5, reviews:91, desc:'Drum Stick.', image:'assets/images/drumstick.jpg' },
+  { id:'lady-finger', name:'Lady Finger', emoji:'🌱', category:'root', price:50, unit:'kg', farm:'local Farms', badge:null, rating:4.7, reviews:183, desc:'Lady Finger.', image:'assets/images/ladyfinger.jpg' },
+  { id:'bottle-gaurd', name:'Bottle gaurd', emoji:'🥦', category:'root', price:8, unit:'kg', farm:'local Farms', badge:null, rating:4.4, reviews:102, desc:'Bottle gaurd.', image:'assets/images/bottlegurad.jpg' },
+  { id:'methi', name:'Fresh Methi', emoji:'🌿', category:'leafy', price:10, unit:'bunch', farm:'local Farms', badge:'organic', rating:4.6, reviews:147, desc:'Fresh Methi.', image:'assets/images/methi.jpg' },
+  { id:'corn', name:'Corn', emoji:'🌽', category:'root', price:20, unit:'kg', farm:'local Farms', badge:'new', rating:4.8, reviews:219, desc:'Corn.', image:'assets/images/corn.jpg' },
+  { id:'radish', name:'Radish', emoji:'🌶', category:'root', price:8, unit:'bunch', farm:'local Farms', badge:null, rating:4.4, reviews:62, desc:'Radish.', image:'assets/images/radish.jpg' },
+  { id:'broccoli', name:'Broccoli', emoji:'🥦', category:'leafy', price:60, unit:'kg', farm:'local Farms', badge:null, rating:4.7, reviews:80, desc:'Broccoli.', image:'assets/images/broccoli.jpg' },
+  { id:'mushroom', name:'Fresh Mushroom', emoji:'🍄', category:'root', price:50, unit:'250g box', farm:'local Farms', badge:null, rating:4.7, reviews:80, desc:'Fresh Mushroom.', image:'assets/images/mushroom.jpg' }
 ];
 

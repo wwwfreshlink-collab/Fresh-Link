@@ -109,12 +109,21 @@ function applyFilterSort() {
     
     // Fallback logic for legacy 'vegetable' or missing categories
     if (!effectiveCat || effectiveCat === 'vegetable' || effectiveCat === 'vegetables') {
-      effectiveCat = categorizeVegetable(pName);
+      effectiveCat = categorizeProduct(pName);
     }
 
     // Special handling for Fruit (include common variations)
     if (filter === 'fruit' || filter === 'fruits') {
-      return effectiveCat === 'fruit' || effectiveCat === 'fruits' || pName.includes('apple') || pName.includes('fruit');
+      const isFruitCat = (effectiveCat === 'fruit' || effectiveCat === 'fruits');
+      const hasFruitName = (pName.includes('apple') || pName.includes('fruit'));
+      
+      // If it's explicitly a fruit category, always show it
+      if (isFruitCat) return true;
+      
+      // If it has a fruit name but is NOT explicitly leafy/root, show it
+      if (hasFruitName && pCat !== 'leafy' && pCat !== 'root') return true;
+      
+      return false;
     }
 
     // Standard matching for other categories (leafy, root, etc.)
@@ -298,8 +307,12 @@ function setupInfiniteScroll() {
 
 /* ================= HELPERS ================= */
 
-function categorizeVegetable(name) {
+function categorizeProduct(name) {
   const n = name.toLowerCase();
+  // Fruit check first
+  if (n.includes('apple') || n.includes('fruit') || n.includes('mango') || n.includes('grape') || n.includes('banana')) {
+    return 'fruit';
+  }
   const leafyKeywords = ['spinach', 'methi', 'curry', 'broccoli', 'cauliflower', 'capsicum', 'peas', 'karela', 'drumstick', 'leaves', 'leafy', 'cabbage'];
   return leafyKeywords.some(k => n.includes(k)) ? 'leafy' : 'root';
 }
@@ -326,7 +339,7 @@ const SHOP_PRODUCT_LIST = [
   { id:'radish', name:'Radish', image:'assets/images/radish.jpg', farm:'local Farms', desc:'Radish.', price:8, unit:'bunch', rating:4.4, reviews:62, category:'root' },
   { id:'broccoli', name:'Broccoli', image:'assets/images/broccoli.jpg', farm:'local Farms', desc:'Broccoli.', price:60, unit:'kg', rating:4.7, reviews:80, category:'leafy' },
   { id:'mushroom', name:'Fresh Mushroom', image:'assets/images/mushroom.jpg', farm:'local Farms', desc:'Fresh Mushroom.', price:50, unit:'250g box', rating:4.7, reviews:80, category:'root' },
-  { id:'red-apple', name:'Kashmiri Red Apple', image:'assets/images/redapple.jpg', farm:'local Farms', desc:'Fresh Red Apples.', price:120, unit:'kg', rating:4.9, reviews:310, category:'fruit' }
+  { id:'red-apple', name:'Kashmiri Red Apple', image:'assets/images/redapple.jpg', farm:'local Farms', desc:'Fresh Red Apples.', price:90, unit:'kg', rating:4.9, reviews:310, category:'fruit' }
 ];
 
 /* Seed localStorage so cart.js can find products by ID */

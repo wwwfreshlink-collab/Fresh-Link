@@ -23,7 +23,7 @@ var GSHEET_URL = (typeof PERMANENT_GSHEET_URL !== 'undefined' && PERMANENT_GSHEE
                  : (localStorage.getItem('fl_gsheet_url') || '').trim();
 
 /* Storage keys */
-const LS_PRODUCTS = 'fl_products_v7';
+const LS_PRODUCTS = 'fl_products_v8';
 const LS_CART     = 'fl_cart_v1';
 const LS_ORDERS   = 'fl_orders_v1';
 
@@ -73,6 +73,7 @@ const DEFAULT_PRODUCTS = [
   { id:'corn', name:'Corn', emoji:'🌽', category:'root', price:20, unit:'kg', farm:'local Farms', badge:'new', rating:4.8, reviews:219, desc:'Corn.', image:'assets/images/corn.jpg' },
   { id:'radish', name:'Radish', emoji:'🌶', category:'root', price:8, unit:'bunch', farm:'local Farms', badge:null, rating:4.4, reviews:62, desc:'Radish.', image:'assets/images/radish.jpg' },
   { id:'broccoli', name:'Broccoli', emoji:'🥦', category:'leafy', price:60, unit:'kg', farm:'local Farms', badge:null, rating:4.7, reviews:80, desc:'Broccoli.', image:'assets/images/broccoli.jpg' },
-  { id:'mushroom', name:'Fresh Mushroom', emoji:'🍄', category:'root', price:50, unit:'250g box', farm:'local Farms', badge:null, rating:4.7, reviews:80, desc:'Fresh Mushroom.', image:'assets/images/mushroom.jpg' }
+  { id:'mushroom', name:'Fresh Mushroom', emoji:'🍄', category:'root', price:50, unit:'250g box', farm:'local Farms', badge:null, rating:4.7, reviews:80, desc:'Fresh Mushroom.', image:'assets/images/mushroom.jpg' },
+  { id:'red-apple', name:'Kashmiri Red Apple', emoji:'🍎', category:'fruit', price:90, unit:'kg', farm:'local Farms', badge:'organic', rating:4.9, reviews:310, desc:'Fresh Red Apples.', image:'assets/images/redapple.jpg' }
 ];
 

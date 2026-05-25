@@ -46,13 +46,13 @@ function addToCart(id, qty = 1) {
 }
 
 function removeFromCart(id) {
-  const cart = getCart().filter(x => x.id !== id);
+  const cart = getCart().filter(x => String(x.id) !== String(id));
   saveCart(cart);
 }
 
 function setQty(id, qty) {
   const cart = getCart();
-  const item = cart.find(x => x.id === id);
+  const item = cart.find(x => String(x.id) === String(id));
   if (!item) return;
   if (qty <= 0) { removeFromCart(id); return; }
   item.qty = qty;

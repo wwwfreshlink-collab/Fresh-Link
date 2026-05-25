@@ -4,7 +4,6 @@
 'use strict';
 
 const STORE_NAME      = 'FreshLink';
-const GWALIOR_CITIES  = ['Bhopal','Indore','Jabalpur','Gwalior','Ujjain','Sagar','Rewa','Satna','Dewas','Ratlam'];
 const WHATSAPP_NUMBER = '919424740903';
 const UPI_ID          = 'yourbusiness@okicici';
 const UPI_NAME        = 'FreshLink Store';
@@ -24,9 +23,25 @@ var GSHEET_URL = (typeof PERMANENT_GSHEET_URL !== 'undefined' && PERMANENT_GSHEE
                  : (localStorage.getItem('fl_gsheet_url') || '').trim();
 
 /* Storage keys */
-const LS_PRODUCTS = 'fl_products_v6';
+const LS_PRODUCTS = 'fl_products_v7';
 const LS_CART     = 'fl_cart_v1';
 const LS_ORDERS   = 'fl_orders_v1';
+
+/* Supabase Configuration */
+const SUPABASE_URL = 'https://pjdxgbpdevhpmjexsobj.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBqZHhnYnBkZXZocG1qZXhzb2JqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0Mjk5ODksImV4cCI6MjA5NTAwNTk4OX0.wvit9EIC3hosUcQivz4CelEP-OyUk6gZwT5DT7aBduc';
+
+let supabaseClient = null;
+if (typeof SUPABASE_URL !== 'undefined' && SUPABASE_URL.includes('.supabase.co')) {
+  try {
+    // @ts-ignore
+    if (typeof supabase !== 'undefined' && supabase.createClient) {
+      supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    }
+  } catch (e) {
+    console.error("Supabase initialization failed:", e);
+  }
+}
 
 /* Delivery */
 const FREE_DELIVERY_ABOVE = 299;

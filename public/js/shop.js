@@ -13,16 +13,12 @@ const PAGE_SIZE      = 30;   // batch size – updated to 30 products as request
 let isLoading        = false;
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // If GSHEET_URL is set, try to pull fresh data first
-  if (typeof GSheet !== 'undefined' && GSheet.isConnected()) {
-    allProducts = await GSheet.loadProducts();
-  } else {
-    // Fallback to local storage (which might have cached GSheet data)
-    allProducts = (typeof getProducts === 'function') ? getProducts() : SHOP_PRODUCT_LIST;
-  }
+  // Try to load from Supabase first
+  allProducts = await loadProductsFromSupabase();
   
   if (!allProducts || allProducts.length === 0) {
-    allProducts = SHOP_PRODUCT_LIST;
+    // Fallback to local storage or defaults
+    allProducts = (typeof getProducts === 'function') ? getProducts() : SHOP_PRODUCT_LIST;
   }
 
   // Handle URL parameters for filtering (e.g., shop.html?cat=leafy)
@@ -43,6 +39,33 @@ document.addEventListener('DOMContentLoaded', async () => {
   applyFilterSort();
   setupInfiniteScroll();
 });
+
+/* ================= SUPABASE ================= */
+
+async function loadProductsFromSupabase() {
+  if (!supabaseClient) {
+    console.warn('Supabase not initialized, using local data.');
+    return null;
+  }
+  try {
+    const { data, error } = await supabaseClient
+      .from('products')
+      .select('*');
+
+    if (error) {
+      console.error('Error loading products from Supabase:', error);
+      return null;
+    }
+    
+    if (data && data.length > 0) {
+      localStorage.setItem(LS_PRODUCTS, JSON.stringify(data));
+      return data;
+    }
+  } catch (e) {
+    console.error('Supabase fetch exception:', e);
+  }
+  return null;
+}
 
 /* ================= FILTER & SORT ================= */
 
@@ -70,28 +93,37 @@ function applyFilterSort() {
     allProducts = (typeof getProducts === 'function') ? getProducts() : SHOP_PRODUCT_LIST;
   }
 
-  // 1. Filter by category
-  let filtered = currentFilter === 'all'
-    ? [...allProducts]
-    : allProducts.filter(p => {
-        let cat = (p.category || '').toLowerCase();
-        
-        // Fallback for legacy 'vegetable' category from source data
-        if (cat === 'vegetable' || cat === 'vegetables') {
-          cat = categorizeVegetable(p.name || '');
-        }
+  // Normalize current filter
+  const filter = currentFilter.toLowerCase();
 
-        if (currentFilter === 'leafy') return cat === 'leafy';
-        if (currentFilter === 'root')  return cat === 'root';
-        if (currentFilter === 'fruit' || currentFilter === 'fruits') {
-          return cat === 'fruit' || cat === 'fruits';
-        }
-        return cat === currentFilter.toLowerCase();
-      });
+  // 1. Filter by category
+  filteredProducts = allProducts.filter(p => {
+    const pName = (p.name || '').toLowerCase();
+    const pCat  = (p.category || '').toLowerCase();
+    
+    // Case: 'all' shows everything
+    if (filter === 'all') return true;
+
+    // Determine the product's effective category
+    let effectiveCat = pCat;
+    
+    // Fallback logic for legacy 'vegetable' or missing categories
+    if (!effectiveCat || effectiveCat === 'vegetable' || effectiveCat === 'vegetables') {
+      effectiveCat = categorizeVegetable(pName);
+    }
+
+    // Special handling for Fruit (include common variations)
+    if (filter === 'fruit' || filter === 'fruits') {
+      return effectiveCat === 'fruit' || effectiveCat === 'fruits' || pName.includes('apple') || pName.includes('fruit');
+    }
+
+    // Standard matching for other categories (leafy, root, etc.)
+    return effectiveCat === filter;
+  });
 
   // 2. Filter by search term
   if (currentSearch) {
-    filtered = filtered.filter(p => 
+    filteredProducts = filteredProducts.filter(p => 
       (p.name || '').toLowerCase().includes(currentSearch) ||
       (p.desc || '').toLowerCase().includes(currentSearch) ||
       (p.category || '').toLowerCase().includes(currentSearch)
@@ -100,14 +132,12 @@ function applyFilterSort() {
 
   // 3. Sort
   if (currentSort === 'pa') {
-    filtered.sort((a, b) => a.price - b.price);
+    filteredProducts.sort((a, b) => a.price - b.price);
   } else if (currentSort === 'pd') {
-    filtered.sort((a, b) => b.price - a.price);
+    filteredProducts.sort((a, b) => b.price - a.price);
   } else if (currentSort === 'rating') {
-    filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+    filteredProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0));
   }
-
-  filteredProducts = filtered;
 
   const countEl = document.getElementById('prodCount');
   if (countEl) countEl.textContent =
@@ -173,10 +203,10 @@ function loadMoreProducts() {
 
 function buildProductCard(p) {
   const cart     = getCart();
-  const cartItem = cart.find(x => x.id === p.id);
+  const cartItem = cart.find(x => String(x.id) === String(p.id));
 
-  const price       = (p.discountPrice && p.discountPrice < p.price) ? p.discountPrice : p.price;
-  const hasDiscount = p.discountPrice && p.discountPrice < p.price;
+  const price       = (p.discount_price && p.discount_price < p.price) ? p.discount_price : p.price;
+  const hasDiscount = p.discount_price && p.discount_price < p.price;
 
   const badgeHtml = p.badge
     ? `<span class="prod-badge badge-${p.badge}">${p.badge}</span>`
@@ -234,7 +264,7 @@ function handleAdd(id) {
 
 function changeQty(id, delta) {
   const cart = getCart();
-  const item = cart.find(x => x.id === id);
+  const item = cart.find(x => String(x.id) === String(id));
   if (!item) return;
 
   const newQty = item.qty + delta;

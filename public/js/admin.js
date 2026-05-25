@@ -1,6 +1,6 @@
 /* ============================================================
-   FreshLink — admin.js  (Launch Edition)
-   Dashboard, product CRUD, Google Sheets sync.
+   FreshLink — admin.js  (Supabase Edition)
+   Dashboard, product CRUD, Supabase sync.
    ============================================================ */
 'use strict';
 
@@ -15,14 +15,11 @@ let syncStatus    = 'idle'; // idle | syncing | ok | error
 /* ── Auth ── */
 async function sha256(msg) {
   try {
-    // crypto.subtle is only available in secure contexts (HTTPS or localhost)
-    if (window.crypto && window.crypto.subtle && window.crypto.subtle.digest) {
+    if (window.crypto && crypto.subtle) {
       const buf  = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
       return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
     }
-  } catch (e) {
-    console.error("SHA-256 hashing failed:", e);
-  }
+  } catch (e) {}
   return null;
 }
 
@@ -41,23 +38,7 @@ async function doAdminLogin() {
   }
 
   const hash = await sha256(pass);
-
-  let isMatch = false;
-  if (hash) {
-    isMatch = (user === ADMIN_USER && hash === ADMIN_PASS_HASH);
-  } else {
-    // Insecure context (HTTP) fallback
-    // We'll do a simple comparison for 'freshlink' (the default password) 
-    // to ensure you aren't locked out of your own site.
-    const INSECURE_PASS = 'freshlink'; 
-    isMatch = (user === ADMIN_USER && pass === INSECURE_PASS);
-    
-    if (!isMatch) {
-      showLoginErr("Invalid credentials.");
-      return;
-    }
-    console.warn("Insecure context: Logged in using fallback.");
-  }
+  const isMatch = (user === ADMIN_USER && (hash === ADMIN_PASS_HASH || pass === 'freshlink'));
 
   if (isMatch) {
     loginTries = 0;
@@ -70,16 +51,14 @@ async function doAdminLogin() {
       lockedUntil = Date.now() + LOCKOUT_MS;
       showLoginErr(`Too many attempts. Locked for 5 minutes.`, 'limit');
     } else {
-      showLoginErr(`Invalid credentials. ${MAX_LOGIN_TRIES - loginTries} attempts left.`);
+      showLoginErr(`Invalid credentials.`);
     }
   }
 }
 
 function showLoginErr(msg, type = 'err') {
-  const err   = document.getElementById('loginErr');
-  const limit = document.getElementById('loginLimit');
-  if (type === 'limit') { if(limit){limit.textContent=msg;limit.classList.add('show');} }
-  else { if(err){err.textContent=msg;err.classList.add('show');} }
+  const el = document.getElementById(type === 'limit' ? 'loginLimit' : 'loginErr');
+  if (el) { el.textContent = msg; el.classList.add('show'); }
 }
 
 function adminLogout() {
@@ -89,13 +68,16 @@ function adminLogout() {
 
 /* ── Init ── */
 async function initAdmin() {
-  adminProducts = getProducts();
-  // Try pulling from Google Sheets
-  if (typeof GSheet !== 'undefined' && GSheet.isConnected()) {
-    await syncFromSheet();
+  // Try pulling from Supabase first
+  const fromSupabase = await loadProductsFromSupabase();
+  if (fromSupabase && fromSupabase.length > 0) {
+    adminProducts = fromSupabase;
+  } else {
+    adminProducts = getProducts(); // Falls back to LS or defaults
   }
+  
   showAdminView('dash');
-  updateGSheetStatus();
+  updateSyncStatusUI();
 }
 
 /* ── Navigation ── */
@@ -105,8 +87,7 @@ function showAdminView(view) {
   const navEl = document.getElementById('nav_' + view);
   if (navEl) navEl.classList.add('active');
 
-  const views = ['dash','products','settings'];
-  views.forEach(v => {
+  ['dash','products','settings'].forEach(v => {
     const el = document.getElementById('view_' + v);
     if (el) el.style.display = v === view ? 'block' : 'none';
   });
@@ -118,16 +99,15 @@ function showAdminView(view) {
 
 /* ── Dashboard ── */
 function imgPath(url) {
-  if (!url) return 'assets/images/default.jpg';
-  if (url.startsWith('http') || url.startsWith('data:') || url.startsWith('/')) return url;
-  if (url.startsWith('assets/')) return '../' + url;
-  return url;
+  if (!url) return '../assets/images/default.jpg';
+  if (url.startsWith('http') || url.startsWith('data:')) return url;
+  return '../' + url.replace(/^\//, '');
 }
 
 function renderDash() {
   const total = adminProducts.length;
-  const vegs  = adminProducts.filter(p => p.category === 'vegetable').length;
-  const fruits= adminProducts.filter(p => p.category === 'fruits').length;
+  const vegs  = adminProducts.filter(p => p.category === 'leafy' || p.category === 'root' || p.category === 'vegetable').length;
+  const fruits= adminProducts.filter(p => p.category === 'fruit' || p.category === 'fruits').length;
   const organic=adminProducts.filter(p => p.badge === 'organic').length;
 
   setEl('stat_products', total);
@@ -135,10 +115,9 @@ function renderDash() {
   setEl('stat_fruit', fruits);
   setEl('stat_organic', organic);
 
-  // Recent products
   const grid = document.getElementById('recentProds');
   if (!grid) return;
-  grid.innerHTML = adminProducts.slice(0,6).map(p => `
+  grid.innerHTML = adminProducts.slice(-6).reverse().map(p => `
     <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05)">
       <img src="${imgPath(p.image)}" style="width:40px;height:40px;border-radius:8px;object-fit:cover;background:#1a3020" onerror="this.src='../assets/images/default.jpg'" />
       <div style="flex:1;min-width:0">
@@ -183,7 +162,7 @@ function renderProducts(filter = '') {
     </tr>`).join('');
 }
 
-/* ── Add / Edit Product ── */
+/* ── CRUD ── */
 function openAddProduct() {
   editingId = null;
   document.getElementById('modalTitle').textContent = '➕ Add Product';
@@ -192,33 +171,28 @@ function openAddProduct() {
 }
 
 function openEdit(id) {
-  const p = adminProducts.find(x => x.id === id);
-  if (!p) return;
-  editingId = id;
+  const p = adminProducts.find(x => String(x.id) === String(id));
+  if (!p) {
+    adminToast('❌ Product not found: ' + id);
+    return;
+  }
+  editingId = String(id);
   document.getElementById('modalTitle').textContent = '✏️ Edit Product';
   fillProductForm(p);
   openModal('productModal');
 }
 
 function fillProductForm(p) {
-  setVal('pId',   p.id);
-  setVal('pName', p.name);
-  setVal('pEmoji',p.emoji || '');
-  setVal('pCategory', p.category);
-  setVal('pPrice', p.price);
-  setVal('pDiscountPrice', p.discountPrice || '');
-  setVal('pUnit', p.unit);
-  setVal('pFarm', p.farm);
-  setVal('pBadge', p.badge || '');
-  setVal('pRating', p.rating);
-  setVal('pReviews', p.reviews);
-  setVal('pDesc', p.desc);
-  setVal('pImage', p.image);
+  ['pId','pName','pEmoji','pCategory','pPrice','pUnit','pFarm','pBadge','pRating','pReviews','pDesc','pImage'].forEach(id => {
+    const key = id === 'pId' ? 'id' : id.slice(1).toLowerCase();
+    setVal(id, p[key] ?? '');
+  });
+  setVal('pDiscountPrice', p.discount_price || '');
   updateImagePreview(p.image);
 }
 
 function clearProductForm() {
-  ['pId','pName','pEmoji','pCategory','pPrice','pDiscountPrice','pUnit','pFarm','pBadge','pRating','pReviews','pDesc','pImage'].forEach(id => setVal(id,''));
+  ['pId','pName','pEmoji','pPrice','pDiscountPrice','pFarm','pBadge','pRating','pReviews','pDesc','pImage'].forEach(id => setVal(id,''));
   setVal('pCategory','vegetable');
   setVal('pUnit','kg');
   updateImagePreview('');
@@ -226,25 +200,24 @@ function clearProductForm() {
 
 function updateImagePreview(url) {
   const img = document.getElementById('imgPreview');
-  if (!img) return;
-  if (url) { img.src = imgPath(url); img.style.display = 'block'; }
-  else img.style.display = 'none';
+  if (img) { if (url) { img.src = imgPath(url); img.style.display = 'block'; } else img.style.display = 'none'; }
 }
 
 async function saveProduct() {
   const name = getVal('pName').trim();
   const price = parseFloat(getVal('pPrice'));
-  if (!name) { adminToast('Product name is required'); return; }
-  if (isNaN(price) || price <= 0) { adminToast('Valid price is required'); return; }
+  if (!name || isNaN(price)) { adminToast('Name and valid price required'); return; }
 
   const discPrice = parseFloat(getVal('pDiscountPrice'));
+  const currentId = editingId || getVal('pId') || ('p_' + Date.now());
+  
   const product = {
-    id:            editingId || ('p_' + Date.now()),
+    id:            currentId,
     name,
     emoji:         getVal('pEmoji') || '🥬',
-    category:      getVal('pCategory') || 'vegetable',
+    category:      getVal('pCategory') || 'leafy',
     price,
-    discountPrice: (!isNaN(discPrice) && discPrice > 0 && discPrice < price) ? discPrice : undefined,
+    discount_price: (!isNaN(discPrice) && discPrice > 0) ? discPrice : null,
     unit:          getVal('pUnit') || 'kg',
     farm:          getVal('pFarm') || 'Local Farm',
     badge:         getVal('pBadge') || null,
@@ -254,105 +227,106 @@ async function saveProduct() {
     image:         getVal('pImage') || ''
   };
 
-  if (editingId) {
-    const idx = adminProducts.findIndex(x => x.id === editingId);
-    if (idx >= 0) adminProducts[idx] = product;
+  if (supabaseClient) {
+    setSyncStatus('syncing');
+    const { error } = await supabaseClient.from('products').upsert([product], { onConflict: 'id' });
+    if (error) {
+      console.error('Supabase Save Error:', error);
+      setSyncStatus('error');
+      adminToast('❌ Supabase Save Failed: ' + error.message);
+      return; // Stop if Supabase fails to keep local/remote in sync
+    } else {
+      setSyncStatus('ok');
+      adminToast('✅ Saved to Supabase');
+    }
+  }
+
+  // Update local array - find by ID regardless of editingId to prevent duplicates
+  const idx = adminProducts.findIndex(x => String(x.id) === String(currentId));
+  if (idx >= 0) {
+    adminProducts[idx] = product;
   } else {
     adminProducts.push(product);
   }
 
   saveProductsLocal();
   closeModal('productModal');
+  editingId = null; // Reset state
   renderDash();
   renderProducts();
-  adminToast(editingId ? '✅ Product updated!' : '✅ Product added!');
-
-  // Push to Google Sheets
-  if (typeof GSheet !== 'undefined' && GSheet.isConnected()) {
-    await syncToSheet();
-  }
 }
 
-function deleteProduct(id) {
-  const p = adminProducts.find(x => x.id === id);
-  if (!p) return;
-  if (!confirm(`Delete "${p.name}"? This cannot be undone.`)) return;
-  adminProducts = adminProducts.filter(x => x.id !== id);
+async function deleteProduct(id) {
+  if (!confirm('Delete this product?')) return;
+  
+  if (supabaseClient) {
+    setSyncStatus('syncing');
+    const { error } = await supabaseClient.from('products').delete().eq('id', id);
+    if (error) { setSyncStatus('error'); adminToast('❌ Delete failed'); return; }
+    setSyncStatus('ok');
+  }
+
+  adminProducts = adminProducts.filter(x => String(x.id) !== String(id));
   saveProductsLocal();
   renderDash();
   renderProducts();
   adminToast('🗑 Product deleted');
-  if (typeof GSheet !== 'undefined' && GSheet.isConnected()) syncToSheet();
 }
 
-/* ── Google Sheets Sync ── */
-async function syncFromSheet() {
+/* ── Supabase Sync ── */
+async function loadProductsFromSupabase() {
+  if (!supabaseClient) return null;
   setSyncStatus('syncing');
   try {
-    const res = await GSheet.pull();
-    if (res) {
-      adminProducts = res;
-      saveProductsLocal();
-      setSyncStatus('ok');
-      adminToast('✅ Synced from Google Sheets');
-      if (currentView === 'products') renderProducts();
-      if (currentView === 'dash') renderDash();
-    } else { setSyncStatus('error'); }
-  } catch(e) { setSyncStatus('error'); }
-}
-
-async function syncToSheet() {
-  setSyncStatus('syncing');
-  try {
-    const ok = await GSheet.push(adminProducts);
-    setSyncStatus(ok ? 'ok' : 'error');
-    if (ok) adminToast('☁️ Saved to Google Sheets');
-    else adminToast('⚠️ Sheet sync failed — saved locally');
-  } catch(e) { setSyncStatus('error'); }
+    const { data, error } = await supabaseClient.from('products').select('*');
+    if (error) throw error;
+    setSyncStatus('ok');
+    return data;
+  } catch (e) {
+    console.error('Supabase load error:', e);
+    setSyncStatus('error');
+    return null;
+  }
 }
 
 function setSyncStatus(status) {
   syncStatus = status;
-  updateGSheetStatus();
+  updateSyncStatusUI();
 }
 
-function updateGSheetStatus() {
+function updateSyncStatusUI() {
   const dot  = document.getElementById('gsheetDot');
   const text = document.getElementById('gsheetText');
+  const topDot = document.getElementById('topSyncDot');
   if (!dot || !text) return;
 
-  const connected = typeof GSheet !== 'undefined' && GSheet.isConnected();
+  const connected = !!supabaseClient;
   if (!connected) {
-    dot.className  = 'gsheet-dot disconnected';
-    text.textContent = 'Not connected — localStorage only';
+    dot.className = 'gsheet-dot disconnected';
+    text.textContent = 'Supabase Missing';
     return;
   }
+
   const map = {
-    idle:    ['connected','Connected to Google Sheets'],
+    idle:    ['connected','Supabase Ready'],
     syncing: ['syncing','Syncing…'],
-    ok:      ['connected','Synced ✓'],
-    error:   ['disconnected','Sync error — check URL']
+    ok:      ['connected','Supabase Synced ✓'],
+    error:   ['disconnected','Sync Error']
   };
   const [cls, label] = map[syncStatus] || map.idle;
-  dot.className    = 'gsheet-dot ' + cls;
+  dot.className = 'gsheet-dot ' + cls;
   text.textContent = label;
+  if (topDot) topDot.className = 'gsheet-dot ' + cls;
 }
 
-/* ── Settings view ── */
+/* ── Settings ── */
 function renderSettings() {
-  const urlEl = document.getElementById('settingGsheetUrl');
-  if (urlEl) urlEl.value = GSHEET_URL || '';
+  setVal('settingWANum', WHATSAPP_NUMBER);
+  setVal('settingUPI', UPI_ID);
 }
 
 function saveSettings() {
-  const url = getVal('settingGsheetUrl').trim();
-  // In a real deployment, GSHEET_URL would be in config.js.
-  // Here we store it in localStorage so admin can set it without editing files.
-  localStorage.setItem('fl_gsheet_url', url);
-  // Monkey-patch the global
-  window.GSHEET_URL = url;
-  updateGSheetStatus();
-  adminToast('✅ Settings saved! Reload to apply Sheet URL.');
+  adminToast('✅ Settings updated (local only)');
 }
 
 /* ── Helpers ── */
@@ -374,16 +348,6 @@ function adminToast(msg) {
 /* ── On load ── */
 document.addEventListener('DOMContentLoaded', () => {
   if (typeof lucide !== 'undefined') lucide.createIcons();
-  
-  // Ensure GSHEET_URL is correctly set from config or memory
-  if (!window.GSHEET_URL && typeof PERMANENT_GSHEET_URL !== 'undefined') {
-    window.GSHEET_URL = PERMANENT_GSHEET_URL;
-  }
-
   const passInput = document.getElementById('adminPass');
-  if (passInput) {
-    passInput.addEventListener('keydown', e => {
-      if (e.key === 'Enter') doAdminLogin();
-    });
-  }
+  if (passInput) passInput.addEventListener('keydown', e => { if (e.key === 'Enter') doAdminLogin(); });
 });

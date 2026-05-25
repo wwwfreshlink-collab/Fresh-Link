@@ -291,7 +291,7 @@ header {
   font-size: 12px; font-weight: 700; color: var(--leaf);
   letter-spacing: .1em; text-transform: uppercase; margin-bottom: 12px;
 }
-.sec-kicker::before { content:''; width:20px; height:2px; background:var(--leaf); border-radius:2px; }
+.sec-kicker::before, .sec-kicker::after { content:''; width:20px; height:2px; background:var(--leaf); border-radius:2px; }
 .sec-title {
   font-family: var(--font-serif);
   font-size: clamp(32px, 4vw, 52px);
@@ -581,7 +581,7 @@ header {
   padding: 100px 20px; text-align: center;
 }
 .mission-section .sec-kicker { justify-content: center; color: var(--mint); }
-.mission-section .sec-kicker::before { background: var(--mint); }
+.mission-section .sec-kicker::before, .mission-section .sec-kicker::after { background: var(--mint); }
 .mission-h2 {
   font-family: var(--font-serif);
   font-size: clamp(44px, 6vw, 80px);
